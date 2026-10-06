@@ -3,365 +3,673 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>*{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>[hidden]{display:none!important}</style>
 <title>Raz Elevate 5B Interiors</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* Layout: single reading column; plan + legend side by side on wide screens; room sections as spec sheets */
+/* Layout: one reading column of spec sheets; 3D viewer and plan near the top; tables scroll inside their own boxes */
 :root{
-  --bg:#f3eee6; --paper:#fbf8f3; --ink:#26241f; --muted:#6c665b; --line:#d8cfc0;
-  --olive:#56603f; --clay:#a9573d; --walnut:#5b3e2c; --brass:#a8864f; --sand:#e4d6bf; --travertine:#d9cbb2;
-  --plan-wall:#3a352d; --plan-fill:#fbf8f3; --plan-furn:#e9dfcd; --plan-furn-stroke:#7b6a52; --plan-rug:#a9573d;
+  --bg:#f2eee7; --paper:#fbf9f5; --ink:#24221f; --muted:#6b655c; --line:#d9d1c4;
+  --walnut:#5a3e2c; --stone:#e9e1d5; --vein:#a89887; --greige:#c9bca9; --olive:#555a3c; --henna:#9b5636; --bronze:#8b6b4a; --limestone:#ece6db;
+  --ok:#4f6b3a; --warn:#9a6a1c; --no:#9b3b2c;
+  --plan-wall:#2f2b26; --plan-fill:#fbf9f5; --plan-furn:#ebe3d6; --plan-stroke:#7d6c55; --plan-rug:#9b5636;
   --display:'Marcellus',Georgia,'Times New Roman',serif;
   --body:'Karla',system-ui,-apple-system,'Segoe UI',sans-serif;
   --mono:'DM Mono',ui-monospace,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#1b1a17; --paper:#24221e; --ink:#eee6d8; --muted:#a79e8e; --line:#3c3830;
-  --olive:#9aa77a; --clay:#d98466; --walnut:#c49a78; --brass:#d1b07a; --sand:#4a4234; --travertine:#5a5040;
-  --plan-wall:#e6dccb; --plan-fill:#24221e; --plan-furn:#3a342a; --plan-furn-stroke:#b9a684; --plan-rug:#d98466; color-scheme:dark}}
+  --bg:#1b1a17; --paper:#24221e; --ink:#eee7da; --muted:#a79f90; --line:#3b372f;
+  --walnut:#c49a78; --stone:#4a443b; --vein:#8f8170; --greige:#6f6556; --olive:#a3ab80; --henna:#d98a66; --bronze:#cfae82; --limestone:#3a362f;
+  --ok:#9cc27e; --warn:#e2b45c; --no:#ec8a76;
+  --plan-wall:#e6ddce; --plan-fill:#24221e; --plan-furn:#3a342a; --plan-stroke:#b9a684; --plan-rug:#d98a66; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#1b1a17; --paper:#24221e; --ink:#eee6d8; --muted:#a79e8e; --line:#3c3830;
-  --olive:#9aa77a; --clay:#d98466; --walnut:#c49a78; --brass:#d1b07a; --sand:#4a4234; --travertine:#5a5040;
-  --plan-wall:#e6dccb; --plan-fill:#24221e; --plan-furn:#3a342a; --plan-furn-stroke:#b9a684; --plan-rug:#d98466; color-scheme:dark}
+  --bg:#1b1a17; --paper:#24221e; --ink:#eee7da; --muted:#a79f90; --line:#3b372f;
+  --walnut:#c49a78; --stone:#4a443b; --vein:#8f8170; --greige:#6f6556; --olive:#a3ab80; --henna:#d98a66; --bronze:#cfae82; --limestone:#3a362f;
+  --ok:#9cc27e; --warn:#e2b45c; --no:#ec8a76;
+  --plan-wall:#e6ddce; --plan-fill:#24221e; --plan-furn:#3a342a; --plan-stroke:#b9a684; --plan-rug:#d98a66; color-scheme:dark}
+*{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
-.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:36px 90px}
 h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
-h1{font-size:clamp(2.2rem,6vw,3.8rem)}
-h2{font-size:clamp(1.6rem,3.6vw,2.2rem)}
-h3{font-size:1.3rem}
-p{margin:0;max-width:65ch}
-.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.stack{display:flex;flex-direction:column;gap:14px}
+h1{font-size:clamp(2.4rem,7vw,4.2rem)}
+h2{font-size:clamp(1.6rem,3.6vw,2.3rem)}
+h3{font-size:1.25rem}
+p{margin:0;max-width:68ch}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:72ch}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:12px}
 section{display:flex;flex-direction:column;gap:22px;padding-block:44px;border-top:1px solid var(--line)}
-header{display:flex;flex-direction:column;gap:16px;padding-bottom:36px}
-.lede{font-size:1.15rem;color:var(--muted)}
-.ar{font-family:var(--display);color:var(--clay);font-size:1.1rem}
-.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
-.sw{display:flex;flex-direction:column;gap:8px}
-.chip{height:84px;border-radius:4px;border:1px solid var(--line)}
-.sw b{font-weight:700;font-size:.95rem}
-.sw span{font-size:.85rem;color:var(--muted);line-height:1.4}
-.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.pillars div{display:flex;flex-direction:column;gap:6px;min-width:0}
-.pillars b{font-family:var(--display);font-weight:400;font-size:1.15rem;color:var(--walnut)}
-.planbox{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:start}
-@media (max-width:760px){.planbox{grid-template-columns:1fr}}
-.svgwrap{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:12px;overflow-x:auto}
+header{display:flex;flex-direction:column;gap:14px;padding-bottom:30px}
+.ar{font-family:var(--display);color:var(--henna);font-size:1.2rem}
+.lede{font-size:1.12rem;color:var(--muted)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem}
+nav.toc a{color:var(--walnut);text-decoration:none;border-bottom:1px solid var(--line)}
+nav.toc a:hover{border-color:var(--walnut)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.facts div{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.facts b{font-family:var(--display);font-weight:400;font-size:1.35rem}
+.facts span{font-size:.8rem;color:var(--muted)}
+.callout{background:var(--paper);border-left:3px solid var(--henna);padding:14px 18px;font-size:.95rem;display:flex;flex-direction:column;gap:8px}
+.callout p{max-width:none}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px 32px}
+.grid2>div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.grid2 b.k{font-family:var(--display);font-weight:400;font-size:1.12rem;color:var(--walnut)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--paper)}
+table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:640px}
+th{font-family:var(--mono);font-weight:500;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);background:var(--bg)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td small{display:block;color:var(--muted);font-size:.8rem;line-height:1.4;margin-top:2px}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sw{display:inline-block;width:16px;height:16px;border-radius:3px;border:1px solid var(--line);vertical-align:-3px;margin-right:8px}
+.tag{display:inline-block;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;border:1px solid currentColor;white-space:nowrap}
+.t-ok{color:var(--ok)} .t-warn{color:var(--warn)} .t-no{color:var(--no)}
+.p1{color:var(--henna)} .p2{color:var(--walnut)} .p3{color:var(--olive)} .p4{color:var(--muted)}
+/* 3D */
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.controls button{font:500 .88rem var(--body);padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.controls button[aria-pressed="true"]{background:var(--walnut);border-color:var(--walnut);color:var(--paper)}
+.controls button:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
+.controls .sep{width:1px;height:24px;background:var(--line);margin-inline:4px}
+#stage{position:relative;width:100%;height:min(70vh,640px);min-height:360px;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(#fbf9f5,#e6dccd);touch-action:none;transition:background .6s}
+#stage.night{background:linear-gradient(#1d1c22,#2b2620)}
+#stage canvas{display:block;width:100%;height:100%}
+#stage-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#6b655c;max-width:none}
+#viewcap{font-size:.9rem;color:var(--muted);min-height:1.5em}
+/* plan */
+.planbox{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:780px){.planbox{grid-template-columns:1fr}}
+.svgwrap{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:10px;overflow-x:auto}
 .svgwrap svg{display:block;width:100%;min-width:320px;height:auto}
-.w{fill:none;stroke:var(--plan-wall);stroke-width:7}
+.w{fill:none;stroke:var(--plan-wall);stroke-width:8;stroke-linecap:square}
 .room{fill:var(--plan-fill)}
-.f{fill:var(--plan-furn);stroke:var(--plan-furn-stroke);stroke-width:2}
+.f{fill:var(--plan-furn);stroke:var(--plan-stroke);stroke-width:2}
 .rug{fill:none;stroke:var(--plan-rug);stroke-width:2;stroke-dasharray:8 6}
-.acc{fill:var(--olive);opacity:.85}
-.lbl{font-family:var(--body);font-size:20px;font-weight:700;fill:var(--ink);letter-spacing:.06em}
+.wd{fill:var(--walnut)}
+.gl{fill:none;stroke:#7fa8b8;stroke-width:4}
+.cur{fill:none;stroke:var(--bronze);stroke-width:3;stroke-dasharray:3 4}
+.clr{fill:none;stroke:var(--ok);stroke-width:1.5}
+.lbl{font-family:var(--body);font-size:19px;font-weight:700;fill:var(--ink);letter-spacing:.06em}
 .dim{font-family:var(--mono);font-size:13px;fill:var(--muted)}
-.num{font-family:var(--mono);font-size:15px;font-weight:500;fill:var(--paper)}
+.cdim{font-family:var(--mono);font-size:12px;fill:var(--ok)}
+.num{font-family:var(--mono);font-size:13px;font-weight:500;fill:var(--paper)}
 .dot{fill:var(--walnut)}
 .door{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4}
-.legend{display:flex;flex-direction:column;gap:10px;font-size:.92rem}
+.ac{fill:#9bb6c4;stroke:none}
+.legend ol{list-style:none;padding:0;gap:7px;font-size:.9rem}
 .legend li{display:flex;gap:10px;align-items:baseline}
-.legend ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.n{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--walnut);color:var(--paper);font-family:var(--mono);font-size:.75rem;display:inline-flex;align-items:center;justify-content:center}
-.note{font-size:.85rem;color:var(--muted)}
-.room-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 20px}
-.size{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
-.mood{padding:14px 18px;background:var(--paper);border-left:3px solid var(--olive);font-size:.98rem;max-width:none}
-.tbl{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:560px}
-th{font-family:var(--mono);font-weight:500;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
-td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-td.p{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
-th.p{text-align:right}
-td small{display:block;color:var(--muted);font-size:.82rem;line-height:1.4;margin-top:2px}
-.tag{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;border:1px solid var(--brass);color:var(--brass);margin-left:6px;white-space:nowrap}
-.tag.save{border-color:var(--olive);color:var(--olive)}
-.total{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-.total div{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:4px}
-.total b{font-family:var(--display);font-weight:400;font-size:1.9rem;font-variant-numeric:tabular-nums}
-.total span{font-size:.88rem;color:var(--muted)}
-.views{display:flex;flex-wrap:wrap;gap:8px}
-.views button{font:500 .9rem var(--body);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
-.views button[aria-pressed="true"]{background:var(--walnut);border-color:var(--walnut);color:var(--paper)}
-.views button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
-#stage{position:relative;width:100%;height:min(68vh,620px);min-height:360px;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(var(--paper),var(--sand));touch-action:none}
-#stage canvas{display:block;width:100%;height:100%}
-#stage-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);max-width:none}
-.looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-.looks button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:12px 16px;border-radius:4px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;font:400 .95rem var(--body)}
-.looks button b{font-family:var(--display);font-weight:400;font-size:1.15rem}
-.looks button span{font-size:.82rem;color:var(--muted)}
-.looks button[aria-pressed="true"]{border-color:var(--brass);box-shadow:inset 0 0 0 1px var(--brass)}
-.looks button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
-.lookinfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 24px;font-size:.92rem}
-.lookinfo div{display:flex;flex-direction:column;gap:2px;min-width:0}
-.lookinfo b{font-weight:700}
-.lookinfo span{color:var(--muted);line-height:1.45}
-ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:70ch}
+.nb{flex:0 0 auto;width:23px;height:23px;border-radius:50%;background:var(--walnut);color:var(--paper);font-family:var(--mono);font-size:.7rem;display:inline-flex;align-items:center;justify-content:center}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--muted)}
+.key i{display:inline-block;width:18px;height:0;border-top:3px solid;vertical-align:middle;margin-right:6px}
+/* palette */
+.pal{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.pal div{display:flex;flex-direction:column;gap:5px}
+.chip{height:70px;border-radius:4px;border:1px solid var(--line)}
+.pal b{font-size:.92rem}
+.pal code{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.pal span{font-size:.82rem;color:var(--muted);line-height:1.4}
+/* rooms */
+.room-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 18px}
+.size{font-family:var(--mono);font-size:.84rem;color:var(--muted)}
+.concept{font-size:1.02rem;max-width:72ch}
+details{border:1px solid var(--line);border-radius:4px;background:var(--paper)}
+details>summary{cursor:pointer;padding:12px 16px;font-weight:700;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;gap:12px}
+details>summary::after{content:"+";font-family:var(--mono);color:var(--muted)}
+details[open]>summary::after{content:"–"}
+details>div{padding:4px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.totals div{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:3px}
+.totals b{font-family:var(--display);font-weight:400;font-size:1.55rem;font-variant-numeric:tabular-nums}
+.totals span{font-size:.82rem;color:var(--muted)}
+.check li{list-style:none;margin-left:-20px}
+.check li::before{content:"✓ ";color:var(--ok);font-weight:700}
+@media (prefers-reduced-motion: reduce){#stage{transition:none}}
 </style>
 
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div class="eyebrow">Raz Elevate · Block D · Floor 5 · Flat B · 86 m² · 2 bedrooms · 2 baths</div>
-  <h1>Oasis Modern</h1>
-  <div class="ar">واحة · a quiet desert luxury</div>
-  <p class="lede">A design for your two-bedroom flat that looks like a boutique hotel in AlUla. It's built from travertine, walnut, olive velvet and brushed brass. The style is warm and a little exotic without being loud, and most pieces come from regular stores. The money goes into a few hero pieces that people will notice.</p>
+  <div class="eyebrow">Interior design master plan · Raz Elevate, Darb Al Haramain · Block D · Floor 5 · Flat B</div>
+  <h1>Rawasheen</h1>
+  <div class="ar">رواشين · Hejazi light, quietly modern</div>
+  <p class="lede">The old houses of Jeddah's Al-Balad used <em>rawasheen</em>, wooden lattice bays that turn harsh sun into soft patterned light, keep rooms private and let air move. This flat borrows the idea rather than the ornament. Warm limestone-white surfaces take the filtered daylight. Dark walnut is used like fine furniture, with one warm-white stone, brushed bronze, and a single lattice at the entrance. The rooms are calm and bright by day and glow by night, lit from the edges rather than by rows of ceiling spotlights.</p>
+  <div class="facts">
+    <div><b>86 m²</b><span>Saleable area (brochure)</span></div>
+    <div><b>2 + 2</b><span>Bedrooms, bathrooms</span></div>
+    <div><b>4.30 × 3.80</b><span>Living room (m)</span></div>
+    <div><b>4.05 × 3.80</b><span>Master bedroom (m)</span></div>
+    <div><b>4.10 × 3.80</b><span>Bedroom 2 (m)</span></div>
+    <div><b>≈3.1 × 0.75–0.90</b><span>Balcony (m)</span></div>
+  </div>
+  <nav class="toc" aria-label="Contents">
+    <a href="#view3d">3D model</a><a href="#analysis">1 · Analysis</a><a href="#concept">2 · Concept</a><a href="#colour">3 · Colour</a><a href="#materials">4 · Materials</a><a href="#plan">5 · Plan</a><a href="#entry">Entry</a><a href="#living">Living</a><a href="#dining">Dining & kitchen</a><a href="#master">Master</a><a href="#bed2">Bedroom 2</a><a href="#baths">Bathrooms</a><a href="#balcony">Balcony</a><a href="#lighting">Lighting</a><a href="#curtains">Curtains</a><a href="#art">Art</a><a href="#storage">Storage</a><a href="#engineering">Engineering</a><a href="#build">Build order</a><a href="#procure">Shopping & budget</a><a href="#review">Design review</a>
+  </nav>
 </header>
 
 <section id="view3d">
-  <div class="stack"><div class="eyebrow">See it</div><h2>Walk through your flat in 3D</h2>
-  <p>Drag to turn, pinch or scroll to zoom. Pick a room to stand inside it at eye level.</p></div>
-  <div class="looks" role="group" aria-label="Design style">
-    <button type="button" data-look="raz" aria-pressed="true"><b>Raz showroom</b><span>Cream bouclé, white marble, black accents</span></button>
-    <button type="button" data-look="oasis" aria-pressed="false"><b>Oasis Modern</b><span>Walnut, olive velvet, travertine, clay</span></button>
-  </div>
-  <div class="views" role="group" aria-label="Camera views">
+  <div class="stack"><div class="eyebrow">Visualisation</div><h2>The flat in 3D, day and evening</h2>
+  <p>Drag to turn and pinch to zoom. Pick a view to stand in a room at eye level, then switch to <b>Evening</b> to see the lighting design. The model uses simple shapes, but the sizes, positions, materials and light sources match this plan.</p></div>
+  <div class="controls" role="group" aria-label="3D controls">
+    <button type="button" data-mode="day" aria-pressed="true">Day</button>
+    <button type="button" data-mode="night" aria-pressed="false">Evening</button>
+    <span class="sep" aria-hidden="true"></span>
     <button type="button" data-v="overview" aria-pressed="true">Whole flat</button>
-    <button type="button" data-v="living">Living room</button>
+    <button type="button" data-v="entry">Arrival</button>
+    <button type="button" data-v="living">Living</button>
+    <button type="button" data-v="tv">From the sofa</button>
     <button type="button" data-v="dining">Dining & kitchen</button>
-    <button type="button" data-v="master">Master bedroom</button>
+    <button type="button" data-v="master">Master</button>
     <button type="button" data-v="bed2">Bedroom 2</button>
   </div>
   <div id="stage"><p id="stage-msg">Loading the 3D model…</p></div>
-  <p class="note">A simplified model to show layout, colours and proportions. The real pieces will have more detail.</p>
-  <div class="lookinfo" id="lookinfo"></div>
+  <p id="viewcap"></p>
 </section>
 
-<section>
-  <div class="stack"><div class="eyebrow">The look</div><h2>Five materials, used everywhere</h2>
-  <p>Repeating the same few materials in every room makes a small flat feel expensive and calm. Avoid adding extra colours. Let texture do the work.</p></div>
-  <div class="swatches">
-    <div class="sw"><div class="chip" style="background:var(--sand)"></div><b>Desert sand</b><span>Walls, curtains, big upholstery</span></div>
-    <div class="sw"><div class="chip" style="background:var(--travertine)"></div><b>Travertine</b><span>Coffee table, side tables, bathroom tile look</span></div>
-    <div class="sw"><div class="chip" style="background:var(--walnut)"></div><b>Walnut</b><span>Fluted TV wall, wardrobe, nightstands</span></div>
-    <div class="sw"><div class="chip" style="background:var(--olive)"></div><b>Olive velvet</b><span>Master headboard, accent cushions</span></div>
-    <div class="sw"><div class="chip" style="background:var(--clay)"></div><b>Clay</b><span>Rug border, kitchen zellige, one artwork</span></div>
-    <div class="sw"><div class="chip" style="background:var(--brass)"></div><b>Brushed brass</b><span>Handles, sconces, mirror frames, taps</span></div>
-  </div>
-  <div class="pillars">
-    <div><b>Fluted & reeded</b><p>Vertical grooves on the TV wall, the nightstands and the wardrobe glass. They add height and look custom-made.</p></div>
-    <div><b>Rounded edges</b><p>Round coffee table, round dining table, arched mirrors. Curves soften a flat that is full of right angles.</p></div>
-    <div><b>Warm light only</b><p>Use 2700K bulbs everywhere and no bright white ceiling light in the evening. Add lamps, wall sconces and LED strips behind panels.</p></div>
-    <div><b>One exotic hero per room</b><p>A cane lounge chair, an olive velvet headboard, a zellige backsplash. Each room gets one thing to remember.</p></div>
+<section id="analysis">
+  <div class="stack"><div class="eyebrow">Phase 1</div><h2>What the apartment tells us</h2>
+  <p>This comes from the architect's furniture plan, the Raz brochure plan and its 3D render. Anything not shown on those drawings is marked as an assumption, and no dimensions have been invented. The design works with the assumptions below until they are measured on site.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>What the drawings show</th><th>Design consequence</th></tr></thead>
+    <tbody>
+    <tr><td><b>Layout</b></td><td>A compact rectangle: master and two baths across the top, living and open kitchen in the middle, bedroom 2 and balcony below, and a separate entrance arm on the east side.</td><td>Very efficient, with almost no corridor. The only true "arrival" space is the entrance arm, so it must carry the first impression.</td></tr>
+    <tr><td><b>Entrance</b></td><td>Front door (D1) at the east end of an arm roughly 4.0 m long (1.40 + 2.60). Width not dimensioned; it reads as about 1.4–1.6 m.</td><td>Entering, you look straight down the arm to a blank wall at its west end, which becomes the focal point. The kitchen opens on the right about 1.8 m in. <b>Assumed clear width: 1.5 m. Measure before ordering the shoe cabinet.</b></td></tr>
+    <tr><td><b>Doors</b></td><td>Master (D2) and bedroom 2 (D2) both open from the living room near its east side and swing into the rooms. Bath doors are D3, and the balcony door is a 2.60 m slider (D6).</td><td>Keep a clear strip about 1 m wide along the east side of the living room, from the master door to the bedroom 2 door. Nothing may sit in a door swing.</td></tr>
+    <tr><td><b>Bathrooms</b></td><td>Two baths of 2.30 × 1.80. The upper one opens from the master. The lower one's door appears to open onto the dining and kitchen side.</td><td><b>Assumed:</b> the upper bath is the master en-suite and the lower is the guest bath. Guests reach it without passing bedrooms, which matters in a Saudi home. Confirm the door positions.</td></tr>
+    <tr><td><b>Windows</b></td><td>The west wall is the façade. The master shows a window in the middle of that wall, roughly 1.3 m wide. The brochure render shows full-width curtains in the living room. Bedroom 2 gets its light through the balcony slider.</td><td><b>Window sizes, sill heights and compass direction are not given.</b> If the façade faces west, it gets strong afternoon sun in Jeddah, so double curtain tracks are a must, not a luxury.</td></tr>
+    <tr><td><b>AC</b></td><td>Wall-mounted split units: one on the master's north wall, and one on each side of the wall between living and bedroom 2. The condensers sit on a ledge of about 80 × 70 next to the balcony.</td><td>The living AC sits above the sofa wall, so art there must stay low and wide. The master AC is off-centre to the bed, so moving it to the bed's centre line is recommended (needs contractor confirmation). The balcony is next to warm condenser exhaust, so choose heat-tolerant plants.</td></tr>
+    <tr><td><b>Kitchen</b></td><td>A single 4.40 m run on the east wall: hob at the north end, sink, dishwasher and washing machine. <b>No fridge position is marked.</b></td><td>A tall fridge column is planned at the entrance end of the run (best for unloading shopping). <b>Confirm the bay width and the water point.</b></td></tr>
+    <tr><td><b>Balcony</b></td><td>The architect's plan shows 0.75 m clear depth and the brochure says 0.90. Width is about 3.1 m. The "80 × 70" box next to it is the AC condenser ledge.</td><td>This is a standing and planting balcony, not a seating one. Don't plan a bistro set that will block the door.</td></tr>
+    <tr><td><b>Ceiling</b></td><td>Height and false-ceiling voids are not shown.</td><td><b>Assumed about 2.8–3.0 m slab to slab with no false ceiling.</b> The design only lowers the ceiling where it matters: curtain pockets and the entrance.</td></tr>
+    <tr><td><b>Sightlines & privacy</b></td><td>From the front door you see down the entrance arm, not into any bedroom. Both bedroom doors are off the living room.</td><td>Good privacy as built. The design keeps the entrance focal wall facing the door and never puts a mirror where it would reflect into a bedroom.</td></tr>
+    </tbody></table></div>
+  <div class="callout">
+    <p><b>Do not change:</b> WC, shower and floor-drain positions; kitchen sink, dishwasher and washing-machine drains; the façade, windows and balcony line (building rules); structural walls and columns (unknown, so treat all perimeter walls as structural); and the wall between the bathrooms and the master, which carries plumbing.</p>
+    <p><b>What I recommend changing from the architect's plan:</b> (1) In the master, the architect put the bed head against the window. I've moved it to the north wall. (2) The architect shows twin beds in bedroom 2; I've drawn one 160 cm bed with a full-wall wardrobe, which gives more storage for a guest room. (3) The sofa stays where the architect put it, but the coffee and dining zones are re-proportioned so the 1 m circulation strip stays clear.</p>
   </div>
 </section>
 
-<section>
-  <div class="stack"><div class="eyebrow">Furnished plan</div><h2>Where everything goes</h2>
-  <p>This is drawn from your Raz layout, with every piece sized to fit and real walking space left. It's a guide, not a construction drawing, so measure on site before ordering custom pieces.</p></div>
+<section id="concept">
+  <div class="stack"><div class="eyebrow">Phase 2</div><h2>One idea, carried through every room</h2></div>
+  <div class="grid2">
+    <div><b class="k">Two-tone architecture</b><p>Everything built in that should disappear (wardrobes, the shoe cabinet, kitchen fronts, doors) is finished in the same limestone white as the walls. Everything that is a focal point or real furniture (the media wall, dining table, nightstands, headboard frames, entrance lattice) is walnut. The flat reads as calm, with deliberate dark accents.</p></div>
+    <div><b class="k">One stone, everywhere it works</b><p>A single warm-white quartzite-look sintered stone with soft taupe veining appears on the console top, coffee table, kitchen splashback, vanity tops and entrance ledge. Repetition is what makes a small home look designed.</p></div>
+    <div><b class="k">Light from the edges</b><p>Coves above the curtains, glow under the console, a wash over the headboard, the lattice backlight and lamps. Downlights are used only where a task needs them. At night the room is lit by its surfaces, not by glare.</p></div>
+    <div><b class="k">Textiles that survive Jeddah</b><p>Use solution-dyed performance fabrics, wool rugs, washable sheers and lined blackout curtains. Avoid bouclé (traps dust), viscose rugs (water marks and crushing) and velvet in direct sun (fades). Luxury here means it still looks right in year eight.</p></div>
+  </div>
+  <p>The style is warm contemporary, with Hejazi references expressed through proportion, filtered light and one lattice, not through motifs on every surface. It deliberately avoids short-lived trends such as all-cream bouclé, arches everywhere, fluting on every surface and black-and-gold.</p>
+</section>
+
+<section id="colour">
+  <div class="stack"><div class="eyebrow">Phase 5</div><h2>Colour system</h2>
+  <p>Four colours do almost all the work, with two accents in small doses. The hex values are targets. Match paint by physical sample under your own light, because Jeddah daylight is warm and strong and colours shift.</p></div>
+  <div class="pal">
+    <div><div class="chip" style="background:#ECE6DB"></div><b>Limestone White</b><code>#ECE6DB · ~75% of surfaces</code><span>All walls, built-in joinery, kitchen fronts, repainted doors. Matte, washable.</span></div>
+    <div><div class="chip" style="background:#F5F2EC"></div><b>Ceiling White</b><code>#F5F2EC</code><span>Ceilings, curtain pockets, entrance ceiling. Flat matte, one step lighter than the walls.</span></div>
+    <div><div class="chip" style="background:#5A3E2C"></div><b>Walnut</b><code>#5A3E2C · ~10%</code><span>Media wall, console, dining table, nightstands, headboard frames, bench, lattice, vanities.</span></div>
+    <div><div class="chip" style="background:#E9E1D5;background-image:linear-gradient(115deg,transparent 40%,#a89887 41%,transparent 43%,transparent 70%,#b8aa9a 71%,transparent 72%)"></div><b>Warm Stone</b><code>#E9E1D5 · veins #A89887</code><span>Console top, coffee table, kitchen splash, vanity tops, entrance ledge.</span></div>
+    <div><div class="chip" style="background:#C9BCA9"></div><b>Greige</b><code>#C9BCA9 · ~10%</code><span>Sofa, master headboard, dining chairs, blackout curtains (one shade lighter), rug border.</span></div>
+    <div><div class="chip" style="background:#F2EEE6"></div><b>Ivory Sheer</b><code>#F2EEE6</code><span>All sheers, bedding, bath towels. It ties every window together.</span></div>
+    <div><div class="chip" style="background:#555A3C"></div><b>Olive (accent)</b><code>#555A3C · under 4%</code><span>Lounge chair, 2 cushions, master throw, bed 2 bench cushion. Echoed by the plants.</span></div>
+    <div><div class="chip" style="background:#9B5636"></div><b>Henna (accent)</b><code>#9B5636 · under 2%</code><span>1 living cushion, line in the living art, bed 2 throw, entrance vessel.</span></div>
+    <div><div class="chip" style="background:#8B6B4A"></div><b>Brushed Bronze</b><code>#8B6B4A</code><span>All metal: lamp bases, wall lights, handles, mirror frames, taps, shattaf.</span></div>
+  </div>
+  <div class="callout"><p><b>How the colours repeat:</b> walnut and greige appear in every room. Olive appears in the living room, master and bedroom 2 (and the plants carry it onto the balcony). Henna appears once in the living room, once in bedroom 2 and once at the entrance, so from the front door your eye travels vessel → cushion → art. Black is used only as a thin line (the TV, book spines), never as a surface. The floor is the developer's existing porcelain (assumed light and warm). If it turns out cool grey, the wool rugs and greige textiles bridge the difference.</p></div>
+</section>
+
+<section id="materials">
+  <div class="stack"><div class="eyebrow">Material palette</div><h2>Six materials, no more</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Material</th><th>Specification</th><th>Where</th><th>Why it suits Jeddah</th></tr></thead>
+    <tbody>
+    <tr><td><span class="sw" style="background:#ECE6DB"></span><b>Limestone-white paint & lacquer</b></td><td>Walls: premium washable matte emulsion, 2 coats on a sealer. Joinery: matte 2K PU lacquer colour-matched to the wall paint.</td><td>All walls, all built-in storage, kitchen fronts if they're being redone.</td><td>Wipeable, hides dust better than pure white, and stays calm in strong light.</td></tr>
+    <tr><td><span class="sw" style="background:#5A3E2C"></span><b>Walnut veneer</b></td><td>Natural American black walnut, vertically book-matched, matte PU lacquer (10–15 gloss), on moisture-resistant MDF or plywood. Solid walnut edges on tables.</td><td>Media wall, console, nightstands, dining table, headboard frames, bench, entrance lattice, vanities.</td><td>Veneer on a stable board doesn't warp under AC cycling and humidity the way solid panels can. The matte lacquer hides fingerprints.</td></tr>
+    <tr><td><span class="sw" style="background:#E9E1D5"></span><b>Warm-white sintered stone</b></td><td>12 mm sintered stone or porcelain slab with a Taj Mahal quartzite look, honed or soft-matte, in large-format slabs (no grout on the splashback).</td><td>Console top, coffee table top, kitchen splash, vanity tops, entrance ledge.</td><td>Doesn't stain, etch or absorb like real marble or travertine. Heat-proof behind the hob.</td></tr>
+    <tr><td><span class="sw" style="background:#8B6B4A"></span><b>Brushed bronze (PVD)</b></td><td>PVD-coated stainless or brass in a brushed bronze finish.</td><td>Lighting, handles, frames, bath fittings.</td><td>Jeddah's salty, humid air tarnishes raw brass. PVD keeps its colour.</td></tr>
+    <tr><td><span class="sw" style="background:#C9BCA9"></span><b>Textiles</b></td><td>Solution-dyed performance chenille or linen-look for upholstery; hand-loomed New Zealand wool rugs; washable polyester-linen sheers; lined blackout or dim-out curtains; cotton percale and washed-linen bedding.</td><td>Sofa, chairs, headboards, curtains, rugs, bedding.</td><td>Resists fading by the window, cleanable after guests, and doesn't trap dust.</td></tr>
+    <tr><td><span class="sw" style="background:#cfe3e8"></span><b>Glass</b></td><td>8 mm clear low-iron toughened glass with bronze profiles.</td><td>Shower screens only.</td><td>Used only where it's needed, so the palette stays quiet.</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="plan">
+  <div class="stack"><div class="eyebrow">Phase 3</div><h2>Space plan</h2>
+  <p>Drawn at 1 unit = 1 cm from the architect's dimensions. Green lines and figures are the walking clearances.</p></div>
   <div class="planbox">
     <div class="svgwrap">
-      <svg viewBox="-30 -30 900 1320" role="img" aria-label="Furnished floor plan of the flat">
-        <!-- rooms (1 unit = 1 cm) -->
-        <rect class="room" x="0" y="0" width="405" height="380"/>
-        <rect class="room" x="415" y="0" width="235" height="185"/>
-        <rect class="room" x="415" y="195" width="235" height="185"/>
-        <rect class="room" x="0" y="390" width="650" height="440"/>
-        <rect class="room" x="430" y="830" width="400" height="110"/>
-        <rect class="room" x="0" y="790" width="420" height="380"/>
-        <rect class="room" x="0" y="1180" width="430" height="80"/>
-        <!-- walls -->
-        <path class="w" d="M0 0H650V830H830V940H420V1180M0 0V1260H430V1180H0"/>
-        <path class="w" d="M0 385H300M390 385H650M410 0V385M415 190H650M0 785H300M390 785H420V830M420 940V1180"/>
-        <!-- doors -->
-        <path class="door" d="M300 385A90 90 0 0 1 390 295"/>
-        <path class="door" d="M300 785A90 90 0 0 0 390 875"/>
-        <path class="door" d="M415 60A70 70 0 0 0 485 130"/>
-        <path class="door" d="M415 250A70 70 0 0 0 485 320"/>
-        <path class="door" d="M830 850A90 90 0 0 0 740 940"/>
-
-        <!-- MASTER -->
-        <rect class="rug" x="90" y="40" width="210" height="300"/>
-        <rect class="acc" x="6" y="90" width="12" height="180"/>
-        <rect class="f" x="18" y="90" width="200" height="180" rx="6"/>
-        <rect class="f" x="8" y="42" width="42" height="42" rx="4"/>
-        <rect class="f" x="8" y="276" width="42" height="42" rx="4"/>
-        <rect class="f" x="70" y="318" width="225" height="60"/>
-        <rect class="f" x="350" y="40" width="52" height="110"/>
-        <circle class="dot" cx="118" cy="180" r="15"/><text class="num" x="118" y="185" text-anchor="middle">1</text>
-        <circle class="dot" cx="182" cy="348" r="15"/><text class="num" x="182" y="353" text-anchor="middle">2</text>
-        <circle class="dot" cx="376" cy="95" r="15"/><text class="num" x="376" y="100" text-anchor="middle">3</text>
-        <text class="lbl" x="260" y="210" text-anchor="middle">MASTER</text>
-        <text class="dim" x="260" y="232" text-anchor="middle">405 × 380</text>
-
-        <!-- BATHS -->
-        <text class="lbl" x="532" y="98" text-anchor="middle">BATH</text>
-        <text class="lbl" x="532" y="292" text-anchor="middle">BATH</text>
-
-        <!-- LIVING -->
-        <rect class="f" x="40" y="392" width="210" height="40"/>
-        <rect class="acc" x="40" y="388" width="210" height="4"/>
-        <rect class="rug" x="30" y="470" width="260" height="290"/>
-        <rect class="f" x="30" y="680" width="240" height="95" rx="10"/>
-        <circle class="f" cx="150" cy="580" r="42"/>
-        <rect class="f" x="10" y="470" width="78" height="78" rx="14" transform="rotate(-20 49 509)"/>
-        <circle class="f" cx="365" cy="585" r="40"/>
-        <circle class="f" cx="365" cy="520" r="20"/><circle class="f" cx="425" cy="600" r="20"/><circle class="f" cx="345" cy="648" r="20"/>
-        <circle class="dot" cx="145" cy="412" r="15"/><text class="num" x="145" y="417" text-anchor="middle">4</text>
-        <circle class="dot" cx="150" cy="728" r="15"/><text class="num" x="150" y="733" text-anchor="middle">5</text>
-        <circle class="dot" cx="150" cy="580" r="15"/><text class="num" x="150" y="585" text-anchor="middle">6</text>
-        <circle class="dot" cx="52" cy="510" r="15"/><text class="num" x="52" y="515" text-anchor="middle">7</text>
-        <circle class="dot" cx="365" cy="585" r="15"/><text class="num" x="365" y="590" text-anchor="middle">8</text>
-        <text class="lbl" x="200" y="460" text-anchor="middle">LIVING</text>
-
-        <!-- KITCHEN -->
-        <rect class="f" x="590" y="392" width="58" height="436"/>
-        <rect class="acc" x="644" y="392" width="4" height="436"/>
-        <circle class="dot" cx="619" cy="610" r="15"/><text class="num" x="619" y="615" text-anchor="middle">9</text>
-        <text class="lbl" x="575" y="530" text-anchor="end">KITCHEN</text>
-        <text class="dim" x="575" y="552" text-anchor="end">440 run</text>
-
-        <!-- ENTRY -->
-        <rect class="f" x="560" y="910" width="130" height="28"/>
-        <circle class="dot" cx="625" cy="890" r="15"/><text class="num" x="625" y="895" text-anchor="middle">10</text>
-        <text class="lbl" x="500" y="895" text-anchor="middle">ENTRY</text>
-
-        <!-- BEDROOM 2 -->
-        <rect class="rug" x="80" y="850" width="180" height="200"/>
-        <rect class="acc" x="6" y="870" width="10" height="140"/>
-        <rect class="f" x="16" y="870" width="200" height="140" rx="6"/>
-        <rect class="f" x="8" y="826" width="40" height="40" rx="4"/>
-        <rect class="f" x="362" y="890" width="55" height="140"/>
-        <circle class="f" cx="330" cy="960" r="22"/>
-        <rect class="f" x="295" y="1110" width="122" height="60"/>
-        <circle class="dot" cx="116" cy="940" r="15"/><text class="num" x="116" y="945" text-anchor="middle">11</text>
-        <circle class="dot" cx="390" cy="960" r="15"/><text class="num" x="390" y="965" text-anchor="middle">12</text>
-        <circle class="dot" cx="356" cy="1140" r="15"/><text class="num" x="356" y="1145" text-anchor="middle">13</text>
-        <text class="lbl" x="200" y="1090" text-anchor="middle">BEDROOM 2</text>
-        <text class="dim" x="200" y="1110" text-anchor="middle">410 × 380</text>
-
-        <!-- BALCONY -->
-        <rect class="f" x="60" y="1186" width="70" height="40"/>
-        <circle class="f" cx="170" cy="1220" r="22"/><circle class="f" cx="230" cy="1220" r="22"/>
-        <circle class="acc" cx="350" cy="1220" r="22"/><circle class="acc" cx="400" cy="1220" r="16"/>
-        <circle class="dot" cx="290" cy="1222" r="15"/><text class="num" x="290" y="1227" text-anchor="middle">14</text>
-        <text class="dim" x="10" y="1286">BALCONY · 90 cm deep</text>
-      </svg>
+<svg viewBox="-40 -40 900 1350" role="img" aria-label="Furnished space plan with clearances">
+  <rect class="room" x="0" y="0" width="405" height="385"/><rect class="room" x="410" y="0" width="240" height="190"/><rect class="room" x="410" y="190" width="240" height="195"/>
+  <rect class="room" x="0" y="385" width="650" height="445"/><rect class="room" x="420" y="830" width="410" height="150"/><rect class="room" x="0" y="785" width="420" height="395"/><rect class="room" x="0" y="1180" width="310" height="90"/>
+  <!-- walls -->
+  <path class="w" d="M0 0H650V830H830V860M830 960V980H420V1180M0 0V1270H310V1180"/>
+  <path class="w" d="M0 385H300M390 385H440M520 385H650M410 0V42M410 113V385M410 190H650M0 785H300M390 785H420V830M0 1180H30M290 1180H420"/>
+  <!-- windows (assumed) & balcony glass -->
+  <path class="gl" d="M0 140V268M0 470V700M30 1180H290"/>
+  <!-- AC units -->
+  <rect class="ac" x="56" y="4" width="114" height="14"/><rect class="ac" x="56" y="766" width="114" height="14"/><rect class="ac" x="56" y="790" width="114" height="14"/>
+  <rect class="f" x="320" y="1186" width="80" height="70"/><text class="dim" x="360" y="1226" text-anchor="middle">AC</text>
+  <!-- doors -->
+  <path class="door" d="M300 385A90 90 0 0 1 390 295"/><path class="door" d="M300 785A90 90 0 0 0 390 875"/>
+  <path class="door" d="M410 42A71 71 0 0 0 481 113"/><path class="door" d="M440 385A80 80 0 0 1 520 305"/><path class="door" d="M830 960A100 100 0 0 1 730 860"/>
+  <!-- curtains -->
+  <path class="cur" d="M14 6V316M14 392V778M6 1166H350"/>
+  <!-- MASTER -->
+  <rect class="rug" x="30" y="100" width="250" height="200"/>
+  <rect class="wd" x="22" y="0" width="270" height="9"/>
+  <rect class="f" x="59" y="9" width="192" height="212" rx="6"/>
+  <rect class="f" x="8" y="9" width="48" height="40"/><rect class="f" x="254" y="9" width="48" height="40"/>
+  <rect class="f" x="0" y="320" width="290" height="60"/>
+  <rect class="f" x="360" y="170" width="45" height="110"/><circle class="f" cx="335" cy="225" r="18"/>
+  <circle class="dot" cx="155" cy="120" r="14"/><text class="num" x="155" y="125" text-anchor="middle">8</text>
+  <circle class="dot" cx="145" cy="350" r="14"/><text class="num" x="145" y="355" text-anchor="middle">9</text>
+  <circle class="dot" cx="382" cy="225" r="14"/><text class="num" x="382" y="230" text-anchor="middle">10</text>
+  <path class="clr" d="M155 221V320"/><text class="cdim" x="162" y="276">105</text>
+  <path class="clr" d="M251 150H360"/><text class="cdim" x="290" y="143">109</text>
+  <text class="lbl" x="250" y="300" text-anchor="middle">MASTER</text>
+  <text class="lbl" x="530" y="100" text-anchor="middle">EN-SUITE</text><text class="lbl" x="530" y="290" text-anchor="middle">GUEST BATH</text>
+  <!-- LIVING -->
+  <rect class="wd" x="0" y="385" width="285" height="7"/>
+  <rect class="f" x="30" y="392" width="220" height="40"/>
+  <rect class="rug" x="15" y="520" width="270" height="200"/>
+  <rect class="f" x="30" y="690" width="220" height="95" rx="10"/>
+  <ellipse class="f" cx="140" cy="595" rx="65" ry="35"/>
+  <rect class="f" x="30" y="470" width="75" height="80" rx="14" transform="rotate(-30 67 510)"/>
+  <circle class="f" cx="280" cy="755" r="20"/>
+  <rect class="wd" x="70" y="779" width="140" height="5"/>
+  <circle class="dot" cx="140" cy="412" r="14"/><text class="num" x="140" y="417" text-anchor="middle">4</text>
+  <circle class="dot" cx="140" cy="740" r="14"/><text class="num" x="140" y="745" text-anchor="middle">5</text>
+  <circle class="dot" cx="140" cy="595" r="14"/><text class="num" x="140" y="600" text-anchor="middle">6</text>
+  <circle class="dot" cx="66" cy="510" r="14"/><text class="num" x="66" y="515" text-anchor="middle">7</text>
+  <path class="clr" d="M140 432V690"/><text class="cdim" x="146" y="660">sofa–TV ≈300</text>
+  <text class="lbl" x="230" y="480" text-anchor="middle">LIVING</text>
+  <!-- DINING -->
+  <circle class="f" cx="380" cy="585" r="50"/>
+  <rect class="f" x="294" y="499" width="48" height="48" rx="6"/><rect class="f" x="418" y="499" width="48" height="48" rx="6"/><rect class="f" x="294" y="623" width="48" height="48" rx="6"/><rect class="f" x="418" y="623" width="48" height="48" rx="6"/>
+  <circle class="dot" cx="380" cy="585" r="14"/><text class="num" x="380" y="590" text-anchor="middle">11</text>
+  <path class="clr" d="M466 585H590"/><text class="cdim" x="505" y="578">124</text>
+  <path class="clr" d="M345 385V499"/><text class="cdim" x="350" y="450">114</text>
+  <!-- KITCHEN -->
+  <rect class="f" x="590" y="392" width="60" height="348"/><rect class="f" x="588" y="742" width="62" height="86"/>
+  <circle class="dot" cx="620" cy="560" r="14"/><text class="num" x="620" y="565" text-anchor="middle">12</text>
+  <circle class="dot" cx="619" cy="785" r="14"/><text class="num" x="619" y="790" text-anchor="middle">13</text>
+  <text class="lbl" x="575" y="460" text-anchor="end">KITCHEN</text>
+  <!-- ENTRY -->
+  <rect class="f" x="655" y="832" width="170" height="35"/>
+  <rect class="wd" x="420" y="865" width="6" height="80"/>
+  <rect class="f" x="700" y="972" width="60" height="6"/>
+  <circle class="dot" cx="740" cy="850" r="14"/><text class="num" x="740" y="855" text-anchor="middle">1</text>
+  <circle class="dot" cx="445" cy="905" r="14"/><text class="num" x="445" y="910" text-anchor="middle">2</text>
+  <circle class="dot" cx="730" cy="955" r="14"/><text class="num" x="730" y="960" text-anchor="middle">3</text>
+  <path class="clr" d="M600 867V980"/><text class="cdim" x="606" y="930">≈115</text>
+  <text class="lbl" x="560" y="905" text-anchor="middle">ENTRY</text><text class="dim" x="830" y="1002" text-anchor="end">front door ▸</text>
+  <!-- BED 2 -->
+  <rect class="rug" x="60" y="850" width="230" height="160" transform="rotate(90 175 930)"/>
+  <rect class="wd" x="0" y="869" width="8" height="212"/>
+  <rect class="f" x="8" y="889" width="212" height="172" rx="6"/>
+  <rect class="f" x="5" y="839" width="45" height="45"/><rect class="f" x="5" y="1066" width="45" height="45"/>
+  <rect class="f" x="225" y="915" width="40" height="120"/>
+  <rect class="f" x="355" y="895" width="60" height="270"/>
+  <rect class="wd" x="35" y="1045" width="0" height="0"/>
+  <circle class="dot" cx="114" cy="975" r="14"/><text class="num" x="114" y="980" text-anchor="middle">14</text>
+  <circle class="dot" cx="245" cy="975" r="14"/><text class="num" x="245" y="980" text-anchor="middle">15</text>
+  <circle class="dot" cx="385" cy="1030" r="14"/><text class="num" x="385" y="1035" text-anchor="middle">16</text>
+  <path class="clr" d="M265 975H355"/><text class="cdim" x="290" y="968">90</text>
+  <text class="lbl" x="200" y="1130" text-anchor="middle">BEDROOM 2</text>
+  <!-- BALCONY -->
+  <rect class="f" x="40" y="1238" width="230" height="28"/>
+  <circle class="dot" cx="155" cy="1252" r="13"/><text class="num" x="155" y="1257" text-anchor="middle">17</text>
+  <text class="dim" x="0" y="1296">BALCONY ≈310 × 75–90</text>
+</svg>
     </div>
-    <div class="legend">
+    <div class="legend stack">
       <ol>
-        <li><span class="n">1</span><span>Bed 180×200 with olive velvet headboard, nightstands both sides</span></li>
-        <li><span class="n">2</span><span>Sliding wardrobe 240 cm, walnut and reeded glass</span></li>
-        <li><span class="n">3</span><span>Floating vanity or desk with an arched mirror</span></li>
-        <li><span class="n">4</span><span>Fluted walnut TV wall with floating console</span></li>
-        <li><span class="n">5</span><span>Low sofa 240 cm on the wall shared with bedroom 2</span></li>
-        <li><span class="n">6</span><span>Round travertine-look coffee table, Ø 85</span></li>
-        <li><span class="n">7</span><span>Cane and walnut lounge chair, the hero piece</span></li>
-        <li><span class="n">8</span><span>Round pedestal dining table, Ø 80, with 3 chairs</span></li>
-        <li><span class="n">9</span><span>Kitchen refresh: zellige splash, brass handles, LED strip</span></li>
-        <li><span class="n">10</span><span>Slim shoe cabinet with a round mirror</span></li>
-        <li><span class="n">11</span><span>Bed 140×200 with a rattan headboard</span></li>
-        <li><span class="n">12</span><span>Wall desk and chair. Works as a guest room or office.</span></li>
-        <li><span class="n">13</span><span>Wardrobe 120 cm, to match the master</span></li>
-        <li><span class="n">14</span><span>Balcony: fold-down wall table, 2 folding chairs, plants</span></li>
+        <li><span class="nb">1</span><span>Full-height shoe and coat cabinet, 180 × 35</span></li>
+        <li><span class="nb">2</span><span>Backlit walnut lattice and stone ledge, the arrival focal point</span></li>
+        <li><span class="nb">3</span><span>Full-length bronze mirror</span></li>
+        <li><span class="nb">4</span><span>Walnut media wall, 65" TV and floating console 220</span></li>
+        <li><span class="nb">5</span><span>Sofa 220, with the living art above it</span></li>
+        <li><span class="nb">6</span><span>Oval stone coffee table 130 × 70</span></li>
+        <li><span class="nb">7</span><span>Olive lounge chair by the window, with floor lamp</span></li>
+        <li><span class="nb">8</span><span>Bed 180 on the north wall, walnut-framed headboard 270</span></li>
+        <li><span class="nb">9</span><span>Full-height wardrobe 290</span></li>
+        <li><span class="nb">10</span><span>Floating dressing table and oval mirror</span></li>
+        <li><span class="nb">11</span><span>Round walnut dining table Ø100, 4 chairs set at 45°</span></li>
+        <li><span class="nb">12</span><span>Kitchen run with stone splash and coffee station</span></li>
+        <li><span class="nb">13</span><span>Tall fridge column (bay to confirm)</span></li>
+        <li><span class="nb">14</span><span>Bed 160 with upholstered headboard and art</span></li>
+        <li><span class="nb">15</span><span>Walnut bench at the foot of the bed</span></li>
+        <li><span class="nb">16</span><span>Full-height wardrobe 270</span></li>
+        <li><span class="nb">17</span><span>Lightweight planter trough along the rail</span></li>
       </ol>
-      <p class="note">Dashed clay lines are rugs. Olive strips are the accent walls and headboards. You keep at least 90 cm of walking space between all pieces, and about 140 cm between the dining table and the kitchen.</p>
+      <div class="key"><span><i style="border-color:#7fa8b8"></i>Glass (living window assumed)</span><span><i style="border-color:var(--bronze);border-top-style:dotted"></i>Curtain track</span><span><i style="border-color:#9bb6c4"></i>AC unit</span><span><i style="border-color:var(--plan-rug);border-top-style:dashed"></i>Rug</span></div>
     </div>
   </div>
 </section>
 
-
-<div id="rooms"></div>
-
-<section>
-  <div class="stack"><div class="eyebrow">Budget</div><h2>What it costs</h2>
-  <p>These are rough prices in Saudi riyals for furnishing everything on this page. Prices change, so check the current price before you order. The low end means mostly IKEA, Home Centre and Amazon.sa plus a local carpenter. The high end upgrades the pieces marked <span class="tag">splurge</span>.</p></div>
-  <div class="total" id="totals"></div>
+<!-- ROOMS -->
+<section id="entry">
+  <div class="room-head"><h2>Entrance</h2><span class="size">≈4.0 × 1.5 m (width assumed)</span></div>
+  <p class="concept"><b>Concept: compress, then release.</b> The entrance is the only true transition in the flat, so it gets a lower, quieter ceiling and one strong focal point at the end of the view. You take off your shoes, check the mirror, and the space opens up to the right into the living area. Arrival here follows the Saudi rhythm: shoes off, oud, a final check before greeting guests.</p>
+  <div class="tbl"><table><thead><tr><th>Piece</th><th>Size (cm)</th><th>Material & colour</th><th>Placement & reason</th></tr></thead><tbody>
+    <tr><td><b>Shoe & coat cabinet</b></td><td class="n">180 × 35 × to ceiling</td><td>Limestone-white matte lacquer, handle-less push-latch doors, ventilated plinth</td><td>North wall, next to the door. Holds about 30 pairs on tilted shelves, a 60 cm hanging bay for abayas, thobes and guests' coats, and a walnut-lined open niche (60 × 40 at 95–135 cm high) with a stone base for keys and the oud burner. Disappears into the wall.</td></tr>
+    <tr><td><b>Lattice panel</b></td><td class="n">100 × 240, 5 cm off the wall</td><td>Walnut lattice (a fine Hejazi pattern), warm LED behind an opal diffuser</td><td>End wall, centred on the door axis. It's the first thing you see, and the only time the flat says "Jeddah" literally.</td></tr>
+    <tr><td><b>Floating ledge</b></td><td class="n">90 × 22 × 3, top at 90</td><td>Warm stone</td><td>In front of the lattice. Holds a bronze mabkhara and one henna-glazed vessel, nothing else.</td></tr>
+    <tr><td><b>Full-length mirror</b></td><td class="n">60 × 180</td><td>Bronze slim frame</td><td>South wall opposite the cabinet, near the door. It doesn't reflect into any room.</td></tr>
+    <tr><td><b>Runner (optional)</b></td><td class="n">80 × 240</td><td>Washable flat-weave in oatmeal</td><td>Only if the floor is cold or loud. It can go in a washing machine, which suits Jeddah's dust.</td></tr>
+  </tbody></table></div>
+  <details><summary>Walls, ceiling, lighting and engineering</summary><div>
+    <p><b>Walls:</b> limestone white; the lattice is the only feature. <b>Ceiling:</b> lowered gypsum ceiling about 15–25 cm below the living ceiling (target about 2.55–2.60 m) with a 5 cm shadow gap at the walls. This "compression" makes the living room feel taller when you step into it. <b>Floor:</b> existing.</p>
+    <p><b>Lighting:</b> 3 trimless downlights (24° beam, 2700K, CRI ≥ 90) running down the arm, plus the lattice backlight. A motion sensor brings the lattice to 30% when you arrive at night.</p>
+    <p><span class="tag t-warn">Confirm</span> the clear width (the cabinet depth drops to 30 cm if the width is under 1.4 m). Also confirm the ceiling height and any services above the lowered ceiling, and plan a driver access hatch. <span class="tag t-ok">Buildable</span> lattice panel, cabinet and mirror.</p>
+    <p><b>Render brief:</b> camera at 1.60 m inside the door looking west, 24 mm. The lattice glows at the end of a soft, slightly darker corridor, and the living room is bright on the right.</p>
+  </div></details>
 </section>
 
-<section>
-  <div class="stack"><div class="eyebrow">Getting the luxury look for less</div><h2>Tips that make the difference</h2></div>
-  <ul class="tips">
-    <li><b>Use a local carpenter for the built-ins.</b> The TV wall, both wardrobes and the vanity cost less from a Riyadh workshop than from a showroom, and they fit your walls exactly.</li>
-    <li><b>Hang curtains from the ceiling.</b> Mount the track at ceiling height and let the curtains reach the floor. It's the cheapest trick for making a room look taller and more expensive.</li>
-    <li><b>Change the hardware.</b> Brushed brass handles and switch plates on standard cabinets look like a custom kitchen for a few hundred riyals.</li>
-    <li><b>Use porcelain instead of real stone.</b> Travertine-look porcelain and terrazzo-look tops give you the look without the cost, sealing or staining.</li>
-    <li><b>Hold off on decor.</b> Live in the flat for a month first, then buy art, plants and cushions. Rooms that are filled too fast end up looking cluttered.</li>
-    <li><b>Buy the mattress in person.</b> Lie on it. This is the one item where comfort matters more than looks.</li>
+<section id="living">
+  <div class="room-head"><h2>Living room</h2><span class="size">4.30 × 3.80 m · open to dining and kitchen</span></div>
+  <p class="concept"><b>Concept: a calm room with one walnut wall.</b> The media wall is the architecture. The sofa faces it, and the lounge chair turns toward the conversation and the window light. Everything is low and soft, with no clutter at eye level. The east metre of the room stays open as the route to both bedroom doors.</p>
+  <div class="tbl"><table><thead><tr><th>Piece</th><th>Size (cm)</th><th>Material & colour</th><th>Placement & reason</th></tr></thead><tbody>
+    <tr><td><b>Sofa</b></td><td class="n">220 × 95 × 78<br>seat h 43, depth 58</td><td>Greige solution-dyed performance chenille; slim 14 cm track arms; tight back with loose feather-wrapped seat cushions; removable legs</td><td>Against the bedroom 2 wall, centred on the TV. 220 is the largest that keeps the bedroom 2 door route clear. Removable legs and a 95 depth help it through the lift and doors.</td></tr>
+    <tr><td><b>Media wall</b></td><td class="n">285 × floor to ceiling, 6 deep</td><td>Book-matched walnut veneer with fine 6 mm shadow grooves every 30 cm; cables in a battened cavity</td><td>The full north wall, from the window corner to the master door frame. It integrates the TV rather than hanging it on a bare wall, and it hides every wire.</td></tr>
+    <tr><td><b>TV</b></td><td class="n">65" (≈145 × 83), centre at 105</td><td>Flush wall mount</td><td>Viewing distance is about 3.0 m, which suits 65" 4K (about 30° field of view, comfortable for long viewing). A 75" would overwhelm the wall.</td></tr>
+    <tr><td><b>Floating console</b></td><td class="n">220 × 40 × 30, base at 30</td><td>Walnut with a 12 mm stone top; 2 drop-down doors and 2 drawers; vented back for the router and receiver</td><td>Aligned with the sofa width. Floating keeps the floor visible (the room looks bigger and is easy to clean) and an LED glow sits underneath.</td></tr>
+    <tr><td><b>Coffee table</b></td><td class="n">130 × 70 × 36 oval</td><td>Stone top on a recessed walnut plinth</td><td>About 60 cm of reach from the sofa. The oval shape keeps shins clear on the route past it.</td></tr>
+    <tr><td><b>Lounge chair</b></td><td class="n">75 × 80 × 75</td><td>Walnut frame, olive solution-dyed fabric (fade resistant)</td><td>By the window, turned 30° toward the sofa. It's the reading seat and the colour accent.</td></tr>
+    <tr><td><b>Side table</b></td><td class="n">Ø40 C-table, h 58</td><td>Bronze</td><td>Slides over the right sofa arm, so there's no extra footprint in the circulation strip.</td></tr>
+    <tr><td><b>Floor lamp</b></td><td class="n">h 155, shade Ø45</td><td>Bronze stem, pleated linen shade</td><td>Behind the lounge chair, as its reading light and the evening glow.</td></tr>
+    <tr><td><b>Rug</b></td><td class="n">200 × 280</td><td>Hand-loomed wool, oatmeal tone-on-tone with a fine greige border</td><td>Sofa front legs and the chair rest on it. It stops before the dining chairs so the zones stay separate.</td></tr>
+    <tr><td><b>Plant</b></td><td class="n">h ≈160, pot Ø40</td><td>Bird of paradise in a stone-look pot</td><td>Corner between the sofa end and the bedroom 2 door. It softens the AC wall.</td></tr>
+  </tbody></table></div>
+  <details><summary>Walls, ceiling, curtains, art, styling and engineering</summary><div>
+    <p><b>Walls:</b> media wall in walnut; all others limestone white. <b>Ceiling:</b> plain, with a curtain pocket along the window wall that holds a cove light. <b>Floor:</b> existing, with a wool rug.</p>
+    <p><b>Art:</b> one landscape piece of 140 × 60 above the sofa, bottom edge about 25 cm above the sofa back. It's kept wide and low on purpose so it doesn't fight the AC unit above. See <a href="#art">Art</a>.</p>
+    <p><b>Cushions (5 maximum):</b> two olive linen 50 × 50, one henna lumbar 40 × 60, two greige textured 50 × 50. Add one oatmeal throw. <b>Coffee table:</b> two stacked large books, one bronze bowl, one small stone vessel with a single stem. <b>Console:</b> one low ceramic piece off-centre and nothing else; the wall is the decoration.</p>
+    <p><b>Lighting:</b> curtain cove (2700K), console glow, floor lamp, and 2 downlights only over the east circulation strip. No downlights over the sofa, which avoids glare when you look up.</p>
+    <p><span class="tag t-ok">Buildable</span> battened media wall fixed to the block wall (scan first for pipes and cables), with power and data at 1.0 m behind the TV and a second outlet in the console. <span class="tag t-warn">Confirm</span> the window size and position and the curtain pocket depth against the AC piping. The AC stays where it is: set its louvres to throw toward the TV wall, not down onto the sofa.</p>
+    <p><b>Render brief:</b> eye level 1.55 m from the dining side, 24 mm. Soft side light through the sheers, the walnut wall as the darkest plane, olive chair in the foreground.</p>
+  </div></details>
+</section>
+
+<section id="dining">
+  <div class="room-head"><h2>Dining & kitchen</h2><span class="size">Kitchen run 4.40 m · dining in the open area</span></div>
+  <p class="concept"><b>Concept: dine under one beautiful light.</b> A round walnut table sits between the living area and the kitchen, under a sculptural pendant. The kitchen stays where the plumbing is and is refined rather than rebuilt: one stone splashback, bronze pulls and warm hidden light.</p>
+  <div class="tbl"><table><thead><tr><th>Piece</th><th>Size (cm)</th><th>Material & colour</th><th>Placement & reason</th></tr></thead><tbody>
+    <tr><td><b>Dining table</b></td><td class="n">Ø100 × 75</td><td>Walnut, single pedestal base</td><td>Centred in the open area. Round with no corner legs suits a small space and sits 4 easily, or 5 for family. It leaves about 124 cm to the kitchen counter and about 114 cm to the master door route.</td></tr>
+    <tr><td><b>Chairs × 4</b></td><td class="n">48 × 55 × 80</td><td>Walnut frame, greige wipeable performance seat and back</td><td>Set at 45° (NE, SE, SW, NW), which narrows the footprint toward the kitchen. Upholstered backs for long Saudi dinners.</td></tr>
+    <tr><td><b>Pendant</b></td><td class="n">Ø55–60</td><td>Pleated or alabaster-look glass, warm dimmable</td><td>Bottom 75 cm above the table top (about 1.50 m from the floor). It's the "art" of this zone.</td></tr>
+    <tr><td><b>Splashback</b></td><td class="n">Full run, counter to upper cabinets</td><td>Warm stone slab, one piece per section</td><td>Has no grout lines, is heat-proof behind the hob and wipes clean after frying.</td></tr>
+    <tr><td><b>Coffee & tea station</b></td><td class="n">60 wide upper unit</td><td>Lift-up door, socket inside, walnut-lined interior</td><td>Above the counter beside the sink. The dallah, thermoses, finjan cups and kettle are ready for guests and hidden afterwards.</td></tr>
+    <tr><td><b>Tall fridge column</b></td><td class="n">≈86 × 62 × to ceiling</td><td>Limestone-white panel</td><td>At the entrance end of the run, so shopping goes straight in. <b>Bay width and water point to confirm.</b></td></tr>
+    <tr><td><b>Hardware</b></td><td class="n">Pulls 160–320</td><td>Brushed bronze PVD</td><td>The same metal as every other fitting in the flat.</td></tr>
+  </tbody></table></div>
+  <details><summary>Walls, lighting, appliances and engineering</summary><div>
+    <p><b>Kitchen fronts:</b> if the developer's cabinets are white or warm-white matte, keep them and change only the hardware. If they are glossy or cold grey, wrap or respray them in limestone white. <b>Dining styling:</b> one low bowl or a runner of three small vessels. Keep the table clear day to day.</p>
+    <p><b>Lighting:</b> under-cabinet LED (2700K, CRI ≥ 90, so every visible light in the open plan matches), 3 downlights over the work zone, and the dining pendant on its own dimmer.</p>
+    <p><span class="tag t-warn">Confirm</span> a ducted hood route to outside or a shaft. Saudi cooking (frying, kabsa) needs real extraction because the kitchen opens onto upholstered furniture. If ducting isn't possible, use a high-capacity recirculating hood with charcoal and plasma filters. <span class="tag t-warn">Confirm</span> the fridge bay. Choose a heat-pump washer-dryer, which needs no vent and means no laundry on the balcony. <span class="tag t-no">Not recommended</span>: moving the sink, dishwasher or washing machine.</p>
+    <p><b>Render brief:</b> from the living side at 1.50 m, 28 mm. Pendant lit, stone splash glowing from the under-cabinet light, evening scene.</p>
+  </div></details>
+</section>
+
+<section id="master">
+  <div class="room-head"><h2>Master bedroom</h2><span class="size">4.05 × 3.80 m · en-suite</span></div>
+  <p class="concept"><b>Concept: a hotel-suite calm.</b> One wall holds the bed and a walnut-framed headboard that spans the nightstands. The wardrobe disappears in limestone white, and daylight comes from the side. There are no ceiling spotlights over the bed. Light comes from the headboard wash, the cove and the reading lights.</p>
+  <div class="callout"><p><b>Why the bed moves:</b> the architect placed the bed head against the window. That blocks the window and curtains, puts the sleeper next to hot glass in the afternoon, and makes the room feel smaller. On the north wall, the window becomes side light (no glare on waking), the 290 cm wardrobe fits along the south wall, and there's 105 cm between the foot of the bed and the wardrobe.</p></div>
+  <div class="tbl"><table><thead><tr><th>Piece</th><th>Size (cm)</th><th>Material & colour</th><th>Placement & reason</th></tr></thead><tbody>
+    <tr><td><b>Headboard panel</b></td><td class="n">270 × 125</td><td>4 cm walnut frame with a greige upholstered inset; LED wash hidden in the top edge</td><td>North wall, spanning the bed and both nightstands. It's the room's single feature, and it makes the bed look custom.</td></tr>
+    <tr><td><b>Bed</b></td><td class="n">Mattress 180 × 200<br>frame 192 × 212</td><td>Upholstered greige frame; recessed plinth (looks floating, robot-vacuum clear); gas-lift storage underneath</td><td>Centred at about x = 155 cm. Leaves about 59 cm on the window side (enough for one-sided access) and about 109 cm on the bathroom side.</td></tr>
+    <tr><td><b>Mattress</b></td><td class="n">180 × 200 × 28–32</td><td>Hybrid pocket spring, medium-firm, cooling cover</td><td>Suits Jeddah's heat. Try it in the shop.</td></tr>
+    <tr><td><b>Nightstands × 2</b></td><td class="n">48 × 40 × 55</td><td>Walnut, 1 drawer and an open shelf, rounded edges</td><td>Tops level with the mattress.</td></tr>
+    <tr><td><b>Reading lights × 2</b></td><td class="n">Swing arm, at 120</td><td>Bronze, individual dimmer</td><td>Mounted on the headboard frame, so the nightstands stay free.</td></tr>
+    <tr><td><b>Wardrobe</b></td><td class="n">290 × 60 × to ceiling</td><td>Limestone-white matte lacquer; 5 hinged doors; 40 cm bronze pulls</td><td>South wall, wall-to-wall up to the door frame. Inside: LED on door sensors, double hanging, a 150 cm long-hang bay (abayas, thobes), drawers, a hidden safe and top boxes for luggage. Hinged doors suit the 105 cm clearance and close better than sliders.</td></tr>
+    <tr><td><b>Dressing table</b></td><td class="n">110 × 45, top at 75</td><td>Floating walnut, 1 drawer; oval bronze mirror 70 × 100; small upholstered stool</td><td>East wall, between the bathroom door and the room door, out of both door swings.</td></tr>
+    <tr><td><b>Rug</b></td><td class="n">250 × 200</td><td>Wool, oatmeal</td><td>Under the lower two-thirds of the bed, so your feet land on wool on both sides.</td></tr>
+  </tbody></table></div>
+  <details><summary>Walls, ceiling, curtains, bedding and engineering</summary><div>
+    <p><b>Walls:</b> limestone white; the headboard is the feature. <b>Ceiling:</b> curtain pocket on the window wall with a 2700K cove, plus 2 downlights only in front of the wardrobe (for dressing). <b>No bench:</b> one would cut the 105 cm walkway below a comfortable width, so a folded olive throw takes its place visually.</p>
+    <p><b>Bedding:</b> white percale sheets, greige washed-linen duvet cover, 2 Euro shams of 65 × 65, 2 sleeping pillows and 1 lumbar of 30 × 80. Olive throw folded at the foot. <b>Nightstands:</b> a carafe on a stone tray, one book, and a small plant on one side only.</p>
+    <p><b>Curtains:</b> 100% blackout in greige plus an ivory sheer, on a double track in the ceiling pocket. Motorised is recommended because the window is beside the bed.</p>
+    <p><span class="tag t-warn">Confirm</span> moving the AC about 50 cm east so it's centred over the bed (refrigerant and drain reroute; do it before painting). <span class="tag t-ok">Buildable</span> headboard panel fixed to the wall with a French cleat, wardrobe and dressing table. <b>Power:</b> 2 outlets plus USB-C at each nightstand, reading-light feeds and the headboard LED driver behind the panel.</p>
+    <p><b>Render brief:</b> from the door corner at 1.60 m, 24 mm. Morning light from the left through sheers, headboard wash on, wardrobe barely visible on the right.</p>
+  </div></details>
+</section>
+
+<section id="bed2">
+  <div class="room-head"><h2>Bedroom 2</h2><span class="size">4.10 × 3.80 m · opens to the balcony</span></div>
+  <p class="concept"><b>Concept: the master's lighter sibling.</b> It uses the same language (walnut, greige, limestone white) with a softer headboard, one henna throw and one piece of art. It works as a guest room now and can become a child's room or study later without redecorating.</p>
+  <div class="tbl"><table><thead><tr><th>Piece</th><th>Size (cm)</th><th>Material & colour</th><th>Placement & reason</th></tr></thead><tbody>
+    <tr><td><b>Bed</b></td><td class="n">Mattress 160 × 200<br>frame 172 × 212</td><td>Upholstered, with a greige-taupe headboard of 180 × 115 and a walnut cap</td><td>Head on the west wall, centred between the AC wall and the balcony.</td></tr>
+    <tr><td><b>Nightstands × 2</b></td><td class="n">45 × 40 × 55</td><td>Walnut, matching the master</td><td>Bronze wall lights above them.</td></tr>
+    <tr><td><b>Bench</b></td><td class="n">120 × 40 × 45</td><td>Walnut base, olive cushion</td><td>At the foot of the bed, for guests' luggage. Leaves 90 cm to the wardrobe.</td></tr>
+    <tr><td><b>Wardrobe</b></td><td class="n">270 × 60 × to ceiling</td><td>Limestone white, hinged, bronze pulls</td><td>East wall, from below the door swing to the balcony wall. It's the second-largest storage in the flat.</td></tr>
+    <tr><td><b>Rug</b></td><td class="n">160 × 230</td><td>Wool, oatmeal</td><td>Across the lower bed.</td></tr>
+  </tbody></table></div>
+  <details><summary>Curtains, art, lighting and alternatives</summary><div>
+    <p><b>Curtains:</b> a ceiling track across the whole balcony wall (x 0–350), stacking mostly to the right between the door edge and the wardrobe, so the slider always opens. Blackout plus sheer. <b>Art:</b> one piece of 100 × 70 centred above the headboard (bottom at about 1.30 m). <b>Bedding:</b> white percale with a henna throw.</p>
+    <p><b>Lighting:</b> curtain cove, 2 wall lights and 2 downlights in front of the wardrobe. <b>Study alternative:</b> use a 140 bed and add a 110 × 50 floating walnut desk on the north wall under the AC (needs a desk lamp).</p>
+    <p><span class="tag t-ok">Buildable</span> as drawn. <span class="tag t-no">Not recommended</span>: twin beds plus a wardrobe plus a desk, which would overcrowd the room.</p>
+  </div></details>
+</section>
+
+<section id="baths">
+  <div class="room-head"><h2>Bathrooms</h2><span class="size">2 × (2.30 × 1.80 m) · en-suite and guest</span></div>
+  <p class="concept"><b>Concept: a small spa in the same language.</b> Fixtures stay where the drains are. The walnut vanity, stone top, bronze fittings and backlit mirror do the work. The brochure shows dark grey tiles, which make a dramatic backdrop, and the warm walnut and bronze stop them feeling cold.</p>
+  <div class="tbl"><table><thead><tr><th>Piece</th><th>Size (cm)</th><th>Material & colour</th><th>Note</th></tr></thead><tbody>
+    <tr><td><b>Vanity × 2</b></td><td class="n">80 × 46, wall-hung</td><td>Walnut veneer on moisture-resistant board, edges sealed; 12 mm stone top with undermount basin</td><td>Wall-hung, so the floor is easy to clean. One drawer for daily items.</td></tr>
+    <tr><td><b>Mirror × 2</b></td><td class="n">70 × 90, rounded corners</td><td>Backlit 3000K, demister</td><td>Flattering face light with no shadows.</td></tr>
+    <tr><td><b>Shower screen</b></td><td class="n">Fixed panel 8 mm</td><td>Low-iron glass, bronze profile</td><td>Recessed niche of 30 × 60 if the wall allows.</td></tr>
+    <tr><td><b>Fittings</b></td><td class="n">—</td><td>Brushed bronze PVD mixer, shattaf, towel ring, robe hooks, paper holder</td><td>One metal finish everywhere.</td></tr>
+    <tr><td><b>Accessories</b></td><td class="n">—</td><td>Stone soap dish, amber-glass dispenser, ivory waffle towels plus one greige, one pothos</td><td>The guest bath also gets a small mabkhara on the vanity.</td></tr>
+  </tbody></table></div>
+  <p><span class="tag t-no">Not recommended</span>: moving the WC or drain, and real marble or travertine (Jeddah humidity stains them). <span class="tag t-warn">Confirm</span> wall-hung vanity fixing and drain heights, niche depth with waterproofing, and the exhaust fan rate. <span class="tag t-warn">Optional</span>: overlay large warm-stone porcelain slabs if you want light bathrooms (check the extra thickness against the door frames).</p>
+</section>
+
+<section id="balcony">
+  <div class="room-head"><h2>Balcony</h2><span class="size">≈3.1 × 0.75–0.90 m</span></div>
+  <p class="concept"><b>Concept: a green edge seen from bedroom 2,</b> not a place to sit. At 75–90 cm deep, any furniture would block the sliding door.</p>
+  <ul>
+    <li><b>Planter trough</b> 230 × 28 × 40 in lightweight fibreglass with a stone finish and an integral drip tray, along the rail.</li>
+    <li><b>Plants for Jeddah heat and condenser exhaust:</b> bougainvillea trained low, rosemary, lantana and one compact olive.</li>
+    <li><b>Floor (if building rules allow):</b> clip-on porcelain or WPC deck tiles, removable for drain cleaning.</li>
+    <li><b>Light:</b> one IP65 bronze wall light so the balcony glows behind the sheer at night.</li>
+    <li><span class="tag t-warn">Confirm</span> the load and drainage of the planters at floor 5, and building rules on the façade and enclosure. <span class="tag t-no">Not recommended</span>: glazing it in, or drying laundry on it.</li>
   </ul>
+</section>
+
+<section id="lighting">
+  <div class="stack"><div class="eyebrow">Phase 6</div><h2>Lighting design</h2>
+  <p>Everything is in layers, with one colour temperature in the living spaces. The brochure lists "Smart Home", so set up scenes on that system if it supports dimming (to confirm). Otherwise use Zigbee dimmers and keypads from a single brand.</p></div>
+  <div class="tbl"><table><thead><tr><th>Fitting</th><th>Specification</th><th>Where</th></tr></thead><tbody>
+    <tr><td><b>Downlights</b></td><td>Trimless, deep-recessed, anti-glare (UGR &lt; 16), 7–9 W, 2700K, CRI ≥ 90 (R9 ≥ 50), 36° beam (24° in the entrance), dimmable. Needs a 70–90 mm ceiling void.</td><td>Entrance ×3, living circulation ×2, kitchen ×3, in front of wardrobes ×2 + ×2. None over the sofa, beds or dining table.</td></tr>
+    <tr><td><b>Cove & curtain wash</b></td><td>24 V LED strip, 2700K, CRI ≥ 90, 8–10 W/m in an aluminium profile with an opal diffuser. Drivers reachable through an access hatch.</td><td>Curtain pockets in the living room, master and bedroom 2.</td></tr>
+    <tr><td><b>Furniture glow</b></td><td>Same strip at 4–5 W/m, 2700K.</td><td>Under the console, master headboard top, entrance lattice, wardrobe interiors (on door sensors).</td></tr>
+    <tr><td><b>Under-cabinet</b></td><td>2700K, CRI ≥ 90, continuous profile.</td><td>The whole kitchen run.</td></tr>
+    <tr><td><b>Decorative</b></td><td>Dining pendant Ø55–60, floor lamp, bronze reading lights, bedroom 2 wall lights, warm 2200–2700K bulbs.</td><td>The "jewellery" of the night scene.</td></tr>
+    <tr><td><b>Bathrooms</b></td><td>3000K backlit mirrors, IP65 shower downlight, motion-sensor night LED under the vanity at 10%.</td><td>Both baths.</td></tr>
+  </tbody></table></div>
+  <div class="tbl"><table id="scenes"><thead><tr><th>Scene</th><th class="n">Living down</th><th class="n">Curtain cove</th><th class="n">Console</th><th class="n">Pendant</th><th class="n">Lamps</th><th class="n">Kitchen down</th><th class="n">Under-cab</th><th class="n">Entrance</th><th class="n">Lattice</th></tr></thead><tbody></tbody></table></div>
+  <p class="eyebrow">Percentages are dimmer levels. "Guest" is the scene for receiving visitors; "Movie" leaves just enough glow to walk safely.</p>
+</section>
+
+<section id="curtains">
+  <div class="stack"><div class="eyebrow">Phase 8</div><h2>Curtains & windows</h2></div>
+  <ul>
+    <li><b>Pockets:</b> a gypsum curtain pocket of 20 W × 15 D cm, recessed into the ceiling, wall to wall on every window wall. The track disappears and the fabric falls from the ceiling, so the windows look full height and the rooms taller.</li>
+    <li><b>Track:</b> double ripplefold (S-wave) track with 2.2–2.5× fullness. The sheer is on the window side and the blackout on the room side.</li>
+    <li><b>Sheer:</b> ivory linen-look polyester (washable, UV-stable), about 30% openness. It stays closed most of the day in Jeddah sun.</li>
+    <li><b>Blackout:</b> greige, one shade lighter than the sofa. 100% in the bedrooms, about 85% dim-out in the living room. Hem 1 cm above the floor, so it doesn't puddle and collect dust.</li>
+    <li><b>Motorisation:</b> recommended for the living room and master (sun schedule plus the night scene). Run power to the pocket ends now, even if you add the motors later.</li>
+    <li><b>Bedroom 2:</b> the track runs past the balcony slider and stacks beside the wardrobe, so the door is never blocked.</li>
+  </ul>
+</section>
+
+<section id="art">
+  <div class="stack"><div class="eyebrow">Phase 10</div><h2>Artwork</h2>
+  <p>Few pieces, chosen for scale. Jeddah has strong contemporary galleries (Athr and Hafez among them) and a growing Saudi print scene, so local work suits the home better than generic prints.</p></div>
+  <div class="tbl"><table><thead><tr><th>Location</th><th>Size (cm)</th><th>Subject & colour</th><th>Hanging</th></tr></thead><tbody>
+    <tr><td><b>Living, above sofa</b></td><td class="n">140 × 60 landscape</td><td>Abstract desert horizon or textured plaster in sand and greige, with one thin henna line</td><td>Centred on the sofa, bottom 25 cm above the sofa back (about 1.05 m). Thin walnut float frame. Kept low because of the AC above.</td></tr>
+    <tr><td><b>Bedroom 2, above bed</b></td><td class="n">100 × 70</td><td>Contemporary Arabic calligraphic abstract in ink on sand-coloured paper</td><td>Centred, bottom about 1.30 m. Bronze slim frame with a white mount.</td></tr>
+    <tr><td><b>Entrance</b></td><td>—</td><td>The lattice is the art</td><td>Add nothing else here.</td></tr>
+    <tr><td><b>Dining</b></td><td>—</td><td>The pendant is the art</td><td>Keep the walls quiet.</td></tr>
+    <tr><td><b>Master</b></td><td>—</td><td>Intentionally none. The headboard and the oval mirror are enough.</td><td>Calm is the luxury in this room.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="storage">
+  <div class="stack"><div class="eyebrow">Phase 11</div><h2>Storage</h2>
+  <p>About 7.4 m of full-height storage, all finished in the wall colour so the flat never looks like a warehouse.</p></div>
+  <div class="tbl"><table><thead><tr><th>Where</th><th class="n">Length</th><th>Holds</th></tr></thead><tbody>
+    <tr><td>Entrance cabinet</td><td class="n">1.8 m full height</td><td>Shoes (≈30 pairs), guests' coats, abayas, umbrella, keys niche, oud</td></tr>
+    <tr><td>Master wardrobe</td><td class="n">2.9 m full height</td><td>Double and long hanging, drawers, safe, luggage on top</td></tr>
+    <tr><td>Bedroom 2 wardrobe</td><td class="n">2.7 m full height</td><td>Guest clothes, plus linen and seasonal storage on the upper shelves</td></tr>
+    <tr><td>Master bed base</td><td class="n">1.8 × 2.0 m</td><td>Spare bedding, out-of-season items</td></tr>
+    <tr><td>Media console</td><td class="n">2.2 m</td><td>Router, receiver, games, documents</td></tr>
+    <tr><td>Kitchen</td><td class="n">4.4 m run + coffee station</td><td>Coffee and tea set hidden behind a lift-up door; tall fridge column</td></tr>
+    <tr><td>Vanities</td><td class="n">2 × 0.8 m</td><td>Daily toiletries; cleaning supplies under the guest basin</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="engineering">
+  <div class="stack"><div class="eyebrow">Phase 12</div><h2>Engineering & feasibility</h2></div>
+  <div class="tbl"><table><thead><tr><th>Item</th><th>Status</th><th>What to check</th></tr></thead><tbody id="eng"></tbody></table></div>
+</section>
+
+<section id="build">
+  <div class="stack"><div class="eyebrow">Construction priorities</div><h2>Order of work</h2></div>
+  <ol>
+    <li><b>Measure and confirm</b> everything in the list below, including the <b>lift and door sizes</b> for the sofa and mattress.</li>
+    <li><b>Electrical first fix:</b> TV and console points, nightstand outlets, reading lights, headboard and lattice drivers, curtain motor feeds, cove drivers, scene keypads.</li>
+    <li><b>AC relocation</b> in the master (if approved) and <b>hood ducting</b>.</li>
+    <li><b>Gypsum:</b> curtain pockets, entrance ceiling, downlight cut-outs.</li>
+    <li><b>Paint</b> the first coats.</li>
+    <li><b>Joinery measured on site</b> after the gypsum, then made: wardrobes, media wall, shoe cabinet, lattice, vanities, headboards.</li>
+    <li><b>Bathroom upgrades</b> and the kitchen splashback.</li>
+    <li><b>Install the joinery</b>, then the final paint coat.</li>
+    <li><b>Lighting second fix</b> and programming the scenes.</li>
+    <li><b>Curtains</b>, measured after the final paint.</li>
+    <li><b>Furniture delivery</b>, then rugs, art and styling last.</li>
+  </ol>
+  <div class="grid2">
+    <div><b class="k">Must be measured</b><ul>
+      <li>Ceiling height in each room, plus any beams and false-ceiling void</li>
+      <li>Window sizes, sill heights and positions (living and master)</li>
+      <li>Entrance clear width</li>
+      <li>Media wall length (window corner to the master door frame)</li>
+      <li>AC unit positions and heights, pipe routes</li>
+      <li>Fridge bay width, water point, sockets</li>
+      <li>Bath fixture positions, drain heights</li>
+      <li>Balcony clear depth (0.75 or 0.90?)</li>
+      <li>Lift car, front door and bedroom door clear sizes</li>
+      <li>Which way the façade faces</li>
+    </ul></div>
+    <div><b class="k">Contractor must confirm</b><ul>
+      <li>Ceiling void for recessed downlights and pockets</li>
+      <li>Master AC relocation</li>
+      <li>Hood ducting route</li>
+      <li>Wall-hung vanity fixings and niches</li>
+      <li>Media wall fixing, with no services in the wall</li>
+      <li>Smart-home system dimming compatibility</li>
+      <li>Balcony load, drainage and building rules</li>
+      <li>Bath tile overlay thickness (if chosen)</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="procure">
+  <div class="stack"><div class="eyebrow">Procurement</div><h2>Shopping list & budget</h2>
+  <p>These are planning estimates in SAR (Oct 2026) for good mid-to-high-end quality in Jeddah. They are not quotes, so get three quotes for every joinery and fit-out item. Furniture is typically available through Jeddah showrooms such as Pan Home, Home Centre, BoConcept, West Elm and Crate & Barrel, and premium pieces through local custom upholsterers. Check current stock before deciding.</p></div>
+  <div class="totals" id="totals"></div>
+  <div class="tbl"><table id="proc"><thead><tr><th>Item</th><th>Priority</th><th>Source</th><th class="n">SAR</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="review">
+  <div class="stack"><div class="eyebrow">Professional review</div><h2>Final check of the whole flat</h2></div>
+  <ul class="check">
+    <li><b>Does it fit?</b> Every piece is drawn to size. Key clearances: sofa to TV about 300, coffee table reach about 60, dining chairs to counter 124, master bed foot to wardrobe 105, bedroom 2 bench to wardrobe 90, entrance about 115 past the cabinet.</li>
+    <li><b>Circulation:</b> a continuous route of about 1 m or more runs from the front door through the dining area to both bedroom doors and the guest bath, and it never crosses the TV sightline.</li>
+    <li><b>Balance:</b> the dark walnut is distributed: the media wall (north), dining table (centre), headboards (north and west), lattice (east). No corner is heavy.</li>
+    <li><b>Colour:</b> 4 base colours and 2 accents. Every room repeats walnut, greige and bronze.</li>
+    <li><b>Materials:</b> six in total, with the stone repeated in five places.</li>
+    <li><b>Lighting:</b> every room has ambient, task and accent layers, and none relies on a ceiling grid of spots.</li>
+    <li><b>Decoration:</b> about 3 to 5 objects per surface at most, with the master deliberately bare.</li>
+    <li><b>Storage:</b> about 7.4 m of full-height storage plus bed-base storage, generous for 86 m².</li>
+    <li><b>Buildable:</b> no structural changes. Everything else is standard Jeddah joinery and fit-out, and each risk is flagged above.</li>
+    <li><b>In 10 years:</b> walnut, warm white, honed stone and bronze have been in use for 50 years and will still be. The trend items (bouclé, viscose, black-and-gold) are deliberately left out.</li>
+    <li><b>One home:</b> the entrance lattice, media wall and headboards share one wood, one metal and one light colour, so it reads as one designer's work.</li>
+  </ul>
+  <div class="callout"><p><b>To finalise, I need from you:</b> (1) the ceiling height and whether there's a false ceiling, (2) which way the living-room window faces, (3) the developer's floor and kitchen finish colours, (4) who will live here (couple, children, frequent guests), and (5) your total budget ceiling. Everything else can proceed on the assumptions marked above.</p></div>
 </section>
 </div>
 
 <script>
-const rooms=[
- {id:"living",name:"Living and dining",size:"430 × 380 cm, open to the kitchen",
-  mood:"This is the room guests see first. Ground it with the walnut TV wall, keep the sofa low and soft, and let the cane chair be the exotic touch.",
-  items:[
-   ["Sofa, 3-seater, 240 cm","Low arms, oat bouclé or performance linen with deep seats. Pan Home or Home Centre, or a custom upholsterer.",3500,6500,"splurge"],
-   ["Fluted TV wall and floating console","Walnut-tone fluted MDF panel about 240 × 260 cm with a 200 cm wall-hung console and an LED strip behind it. Local carpenter.",2500,4500,"splurge"],
-   ["Lounge chair, cane and walnut","The hero piece, in the style of a Pierre Jeanneret chair. Search \"cane lounge chair\" on Amazon.sa or Noon, or try Home Centre.",1200,2500],
-   ["Round coffee table, Ø 85","Travertine-look or limestone-look top on a pedestal base. Home Centre or Pan Home.",800,1800,"save"],
-   ["Rug, 200 × 300","Hand-tufted wool blend, sand coloured with a thin clay border. IKEA, Home Centre or H&M Home.",1200,2500],
-   ["Dining table Ø 80 and 3 chairs","Pedestal base in walnut tone, with woven or upholstered chairs. A round table keeps the walkway clear.",1800,3500],
-   ["Lighting","Alabaster-look or rattan pendant over the dining table, a linen floor lamp and dimmers.",900,2000],
-   ["Curtains","Ceiling-mounted track with a linen-look sheer and a blackout layer, in sand.",1200,2200]
-  ]},
- {id:"master",name:"Master bedroom",size:"405 × 380 cm",
-  mood:"A hotel-suite feel with a tall olive velvet headboard, brass wall lights instead of table lamps, and linen bedding in sand and white.",
-  items:[
-   ["Bed 180 × 200, tall headboard","Upholstered olive velvet headboard about 130 cm high, with a channel-tufted or panelled bed frame.",2500,4500,"splurge"],
-   ["Mattress 180 × 200","Pocket spring or hybrid. Try it in store.",1800,3500],
-   ["Nightstands × 2","Fluted walnut-tone with one drawer each, about 45 cm wide.",800,1600],
-   ["Sliding wardrobe, 240 cm","Walnut veneer frame with reeded glass panels and an internal LED strip. Local carpenter.",5000,8000,"splurge"],
-   ["Wall sconces × 2","Brushed brass with plug-in cables, so no rewiring is needed.",400,900,"save"],
-   ["Vanity or desk with arched mirror","Floating 100 cm shelf with a slim stool and a tall arched brass mirror.",700,1500],
-   ["Bedding and throw","Washed linen duvet cover in sand, white sheets and an olive throw.",600,1200],
-   ["Curtains","Blackout plus sheer, ceiling-mounted.",900,1600]
-  ]},
- {id:"bed2",name:"Bedroom 2",size:"410 × 380 cm, opens to the balcony",
-  mood:"A lighter, more casual room with rattan, white linen and plants. It works as a guest room now and an office or kids' room later.",
-  items:[
-   ["Bed 140 × 200 with rattan headboard","Rattan or cane headboard on a simple oak frame. IKEA or Home Centre.",1500,2800],
-   ["Mattress 140 × 200","",1200,2000],
-   ["Wall desk and chair","Wall-mounted desk about 140 × 55 cm with a woven chair.",900,1800,"save"],
-   ["Wardrobe, 120 cm","Matches the master wardrobe so the flat feels consistent.",2500,4000],
-   ["Nightstand, lamp and curtains","",1200,2200]
-  ]},
- {id:"kitchen",name:"Kitchen, baths and entry",size:"Kitchen run 440 cm, two baths of 230 × 180 cm",
-  mood:"Keep the developer's cabinets and change only what you touch and see: the backsplash, handles and lighting.",
-  items:[
-   ["Zellige-look backsplash","About 2.6 m² of glossy handmade-look tiles in clay or deep olive, including installation.",600,1500],
-   ["Brushed brass handles","For every kitchen and wardrobe door.",300,700,"save"],
-   ["Under-cabinet LED","2700K warm strips.",250,600],
-   ["Bathroom upgrades × 2","Round brass mirrors, a stone-look tray, waffle towels and brass or black tap covers.",1000,2500],
-   ["Entry: shoe cabinet and mirror","Slim 130 cm cabinet with a round brass mirror and a catch-all tray.",800,1600]
-  ]},
- {id:"balcony",name:"Balcony",size:"510 × 90 cm",
-  mood:"It's only 90 cm deep, so keep it to a coffee spot for two that folds away, with planters along the rail like the Raz render.",
-  items:[
-   ["Fold-down wall table and 2 folding chairs","Teak or powder-coated metal.",500,1100],
-   ["Planters, plants and lanterns","Olive tree or bird of paradise in clay pots, plus solar lanterns.",400,900]
-  ]},
- {id:"decor",name:"Art, plants and finishing touches",size:"Whole flat",
-  mood:"Buy these last, a month after moving in.",
-  items:[
-   ["Art","One large abstract in clay and sand tones above the sofa, plus two small framed prints.",800,2000],
-   ["Indoor plants","Olive tree, fiddle-leaf fig and a trailing pothos.",400,900],
-   ["Cushions, throws and vases","",500,1200]
-  ]}
-];
-const fmt=n=>n.toLocaleString("en-US");
-const host=document.getElementById("rooms");let lo=0,hi=0;
-for(const r of rooms){
-  let rl=0,rh=0;
-  const rows=r.items.map(([n,d,a,b,t])=>{rl+=a;rh+=b;
-    const tag=t?`<span class="tag ${t==="save"?"save":""}">${t}</span>`:"";
-    return `<tr><td><b>${n}</b>${tag}${d?`<small>${d}</small>`:""}</td><td class="p">${fmt(a)} – ${fmt(b)}</td></tr>`}).join("");
-  lo+=rl;hi+=rh;
-  const s=document.createElement("section");s.id=r.id;
-  s.innerHTML=`<div class="room-head"><h2>${r.name}</h2><span class="size">${r.size}</span></div>
-  <p class="mood">${r.mood}</p>
-  <div class="tbl"><table><thead><tr><th>Piece</th><th class="p">SAR</th></tr></thead><tbody>${rows}
-  <tr><td><b>Room total</b></td><td class="p"><b>${fmt(rl)} – ${fmt(rh)}</b></td></tr></tbody></table></div>`;
-  host.appendChild(s);
-}
-document.getElementById("totals").innerHTML=
- `<div><span>Smart budget</span><b>SAR ${fmt(Math.round(lo/1000))}k</b><span>Mostly high-street stores plus a carpenter</span></div>
-  <div><span>Full Oasis Modern</span><b>SAR ${fmt(Math.round(hi/1000))}k</b><span>Every splurge piece upgraded</span></div>
-  <div><span>Recommended</span><b>SAR ${fmt(Math.round((lo+(hi-lo)*0.4)/1000))}k</b><span>Spend more on the sofa, wardrobes, bed and TV wall, and save on the rest</span></div>`;
+// lighting scenes
+const scenes=[["Full brightness",[100,100,100,100,100,100,100,100,100]],["Normal evening",[40,70,60,60,80,30,60,30,70]],["Relax",[0,40,40,20,60,0,30,10,50]],["Movie",[0,10,25,0,0,0,10,0,20]],["Dining",[20,50,30,90,40,20,50,20,60]],["Guest",[60,80,70,80,80,40,70,80,100]]];
+document.querySelector('#scenes tbody').innerHTML=scenes.map(([n,v])=>`<tr><td><b>${n}</b></td>${v.map(x=>`<td class="n">${x?x+'%':'off'}</td>`).join('')}</tr>`).join('');
+// engineering
+const ENG=[["Recessed downlights and curtain pockets","warn","Is there a ceiling void? If it's bare slab, add a 10 cm gypsum layer locally or use surface cylinders. Keep at least 2.70 m clear."],
+["Battened walnut media wall (6 cm)","ok","Scan the wall for pipes and cables, fix to the block wall, and leave the TV-mount backing and ventilation for the console."],
+["Built-in wardrobes and shoe cabinet to the ceiling","ok","Moisture-resistant carcasses, scribed to the ceiling, ventilated plinths, measured after the gypsum."],
+["Entrance lattice with backlight","ok","An access panel for the driver and an opal diffuser so the LED dots don't show."],
+["Lowered entrance ceiling","warn","Confirm the ceiling height and that no services clash."],
+["Relocate the master AC to the bed's centre","warn","Refrigerant and drain reroute and wall patching, done before painting."],
+["Ducted kitchen hood","warn","Needs a route to a shaft or the façade and building approval. Otherwise use a recirculating hood with charcoal."],
+["Wall-hung vanities and shower niches","warn","Wall strength, chemical anchors, drain heights, waterproofing behind the niche."],
+["Motorised curtains","ok","Power at the pocket ends during the first fix."],
+["Smart lighting scenes","warn","Check the dimming protocol of the developer's smart-home system, or use one Zigbee brand."],
+["Moving the WC, shower, sink or washing machine","no","Drains and slab falls: high cost and leak risk."],
+["Natural marble or travertine in wet areas","no","Stains and etches in Jeddah humidity. Use sintered stone or porcelain."],
+["Enclosing the balcony or changing the façade","no","Building rules, and the AC condenser needs open air."],
+["Full-height replacement interior doors","no","Frames and lintels would change. Repaint the doors in limestone white and fit bronze levers instead."],
+["Bath tile overlay with large slabs","warn","Thickness at the door frames and shower falls."]];
+const T={ok:['Buildable','t-ok'],warn:['Confirm with contractor','t-warn'],no:['Not recommended','t-no']};
+document.getElementById('eng').innerHTML=ENG.map(([a,s,b])=>`<tr><td><b>${a}</b></td><td><span class="tag ${T[s][1]}">${T[s][0]}</span></td><td>${b}</td></tr>`).join('');
+// procurement
+const P={1:'Must have',2:'Highly recommended',3:'Nice to have',4:'Optional'};
+const items=[
+["Sofa 220, performance fabric, removable legs",1,"Custom upholsterer / BoConcept / Pan Home",8000,16000],
+["Master bed frame with gas-lift storage",1,"Custom upholsterer",4000,7500],
+["Master headboard panel 270 (walnut frame, upholstered, LED)",1,"Joinery workshop",3000,5500],
+["Mattress 180 × 200 hybrid",1,"Mattress showroom (try in store)",4000,8000],
+["Bedroom 2 bed 160 with headboard",1,"Home Centre / Pan Home / upholsterer",3500,6500],
+["Mattress 160 × 200",1,"Mattress showroom",2500,5000],
+["Master wardrobe 290, full height, fitted interior",1,"Joinery workshop",10000,16000],
+["Bedroom 2 wardrobe 270, full height",1,"Joinery workshop",8000,13000],
+["Entrance shoe and coat cabinet 180",1,"Joinery workshop",5000,8000],
+["Dining table Ø100 walnut pedestal",1,"West Elm / Crate & Barrel / joinery",3500,7500],
+["Dining chairs × 4",1,"Showroom",4000,9000],
+["Curtains: 3 rooms, double ripplefold, sheer + blackout",1,"Curtain specialist",9000,15000],
+["Gypsum curtain pockets and entrance ceiling",1,"Fit-out contractor",7000,12000],
+["Lighting fixtures: downlights, LED strip, profiles, drivers",1,"Lighting supplier",6000,11000],
+["Electrical works and dimmers or scene keypads",1,"Electrician",4000,9000],
+["Painting, whole flat, premium washable",1,"Painter",4000,7000],
+["Media wall: walnut panel + floating console with stone top",2,"Joinery workshop",9000,15000],
+["Lounge chair, olive performance fabric",2,"Showroom / upholsterer",3500,8000],
+["Oval coffee table, stone and walnut",2,"Showroom / stone workshop",2500,6000],
+["Wool rugs: 200×280, 250×200, 160×230",2,"Rug specialist",5000,11000],
+["Dining pendant Ø55–60",2,"Lighting showroom",2000,6000],
+["Nightstands × 4, walnut",2,"Showroom / joinery",4000,9000],
+["Wall and reading lights × 4, bronze",2,"Lighting showroom",2000,4500],
+["Dressing table, oval mirror, stool",2,"Joinery + showroom",2500,5500],
+["Bathroom vanities × 2 + stone tops + backlit mirrors",2,"Bath showroom + stone workshop",7000,13000],
+["Kitchen stone splash, under-cabinet LED, bronze pulls",2,"Stone workshop + electrician",3500,7000],
+["Entrance lattice panel + stone ledge",2,"Joinery workshop",3500,6500],
+["Artwork: living 140×60, bedroom 2 100×70, framed",3,"Jeddah galleries / Saudi print studios",3000,12000],
+["Floor lamp and accent lamps",3,"Lighting showroom",2000,4500],
+["Bedroom 2 bench + bedding sets + throws + cushions",3,"Zara Home / H&M Home / showroom",3500,7000],
+["Bath accessories and towels",3,"Zara Home / bath showroom",1500,3000],
+["Decorative objects: books, bowls, vessels, mabkhara",3,"Local makers / showrooms",2000,5000],
+["Plants, pots and balcony planter trough",3,"Nursery",1500,3500],
+["Entrance full-length mirror",3,"Showroom",800,2000],
+["Motorised curtains (living + master)",4,"Curtain specialist",4000,8000],
+["Master AC relocation",4,"AC contractor",800,2000],
+["Ducted hood upgrade",4,"Kitchen supplier",2000,5000],
+["Large-slab bath wall overlay (both baths)",4,"Tile contractor",8000,15000]];
+const fmt=n=>n.toLocaleString('en-US');
+document.querySelector('#proc tbody').innerHTML=items.map(([n,p,s,a,b])=>`<tr><td><b>${n}</b></td><td><span class="tag p${p}">${P[p]}</span></td><td><small style="margin:0">${s}</small></td><td class="n">${fmt(a)} – ${fmt(b)}</td></tr>`).join('');
+const sum=f=>items.filter(f).reduce((t,i)=>[t[0]+i[3],t[1]+i[4]],[0,0]);
+const k=x=>Math.round(x/1000)+'k';
+const t1=sum(i=>i[1]===1),t2=sum(i=>i[1]<=2),t3=sum(i=>i[1]<=3),t4=sum(()=>true);
+document.getElementById('totals').innerHTML=[["Must have",t1,"A complete, liveable, finished flat"],["+ Highly recommended",t2,"The full design as drawn (recommended target)"],["+ Nice to have",t3,"Fully styled"],["Everything incl. optional",t4,"With motors, AC move and bath slabs"]]
+ .map(([a,[lo,hi],c])=>`<div><span>${a}</span><b>SAR ${k(lo)}–${k(hi)}</b><span>${c}</span></div>`).join('');
 </script>
 
 <script>/**
@@ -1419,9 +1727,9 @@ document.getElementById("totals").innerHTML=
 </script>
 <script>
 (function(){
-const stage=document.getElementById('stage'),msg=document.getElementById('stage-msg');
+const stage=document.getElementById('stage'),msg=document.getElementById('stage-msg'),cap=document.getElementById('viewcap');
 if(!window.THREE||!THREE.OrbitControls){msg.textContent='The 3D view could not load. Try reopening the page.';return;}
-const S=0.01; // plan cm -> metres
+const S=0.01;
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
@@ -1431,161 +1739,179 @@ const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(50,1,0.05,100);
 const controls=new THREE.OrbitControls(camera,renderer.domElement);
 controls.enableDamping=true;controls.maxPolarAngle=Math.PI*0.49;controls.minDistance=0.3;controls.maxDistance=22;
-
-scene.add(new THREE.HemisphereLight(0xfff4e2,0x8a7a62,0.75));
-const sun=new THREE.DirectionalLight(0xffe8c8,0.95);sun.position.set(-4,9,6);sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8,near:1,far:30});sun.shadow.bias=-0.0005;
-sun.target.position.set(4.2,0,6.3);scene.add(sun,sun.target);
+const hemi=new THREE.HemisphereLight(0xfff6ea,0x8a7d68,0.8);scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff0dc,0.9);sun.position.set(-6,9,4);sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-8,right:8,top:8,bottom:-8,near:1,far:30});sun.shadow.bias=-0.0006;
+sun.target.position.set(4,0,6.3);scene.add(sun,sun.target);
 
 function tex(w,h,draw,rx=1,ry=1){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.encoding=THREE.sRGBEncoding;t.anisotropy=4;return t;}
-const woodFloor=tex(256,256,(g,w,h)=>{for(let i=0;i<8;i++){const l=180+((i*37)%25);g.fillStyle=`rgb(${l},${l-38},${l-80})`;g.fillRect(0,i*32,w,32);
-  g.fillStyle='rgba(60,40,20,.25)';g.fillRect(0,i*32,w,1.5);g.fillRect(((i*97)%200)+20,i*32,1.5,32);}},3,3);
-const tile=tex(128,128,(g,w,h)=>{g.fillStyle='#e2d6c1';g.fillRect(0,0,w,h);g.fillStyle='#cdbfa6';g.fillRect(0,63,w,2);g.fillRect(63,0,2,h);},3,3);
-const flute=tex(64,64,(g,w,h)=>{g.fillStyle='#6a4630';g.fillRect(0,0,w,h);for(let i=0;i<4;i++){g.fillStyle='#4f3323';g.fillRect(i*16,0,4,h);g.fillStyle='#7d5539';g.fillRect(i*16+6,0,4,h);}},14,1);
-const reeded=tex(64,64,(g,w,h)=>{g.fillStyle='#b9b2a2';g.fillRect(0,0,w,h);for(let i=0;i<8;i++){g.fillStyle='rgba(255,255,255,.35)';g.fillRect(i*8,0,3,h);}},6,1);
-const zellige=tex(128,128,(g,w,h)=>{g.fillStyle='#efe4d2';g.fillRect(0,0,w,h);for(let y=0;y<4;y++)for(let x=0;x<4;x++){const v=(x*7+y*13)%5;g.fillStyle=`rgb(${168+v*6},${84+v*4},${58+v*3})`;g.fillRect(x*32+1,y*32+1,30,30);}},8,2);
-const rugT=tex(256,256,(g,w,h)=>{g.fillStyle='#e6d8bf';g.fillRect(0,0,w,h);g.strokeStyle='#a9573d';g.lineWidth=10;g.strokeRect(14,14,w-28,h-28);g.lineWidth=2;g.strokeRect(30,30,w-60,h-60);
-  g.fillStyle='rgba(169,87,61,.18)';for(let i=0;i<6;i++){g.beginPath();g.moveTo(128,50+i*28);g.lineTo(150,64+i*28);g.lineTo(128,78+i*28);g.lineTo(106,64+i*28);g.fill();}});
-const cane=tex(64,64,(g,w,h)=>{g.fillStyle='#d2ae76';g.fillRect(0,0,w,h);g.strokeStyle='rgba(110,75,35,.55)';g.lineWidth=2;for(let i=-64;i<64;i+=10){g.beginPath();g.moveTo(i,0);g.lineTo(i+64,64);g.stroke();g.beginPath();g.moveTo(i+64,0);g.lineTo(i,64);g.stroke();}},2,2);
+const floorT=tex(256,256,(g,w,h)=>{g.fillStyle='#e7e1d6';g.fillRect(0,0,w,h);for(let i=0;i<300;i++){g.fillStyle=`rgba(150,135,115,${.03+(i%4)*.01})`;g.fillRect((i*53)%w,(i*97)%h,6,2);}g.fillStyle='#d6cec1';g.fillRect(0,127,w,1.5);g.fillRect(127,0,1.5,h);},5,5);
+const bathT=tex(128,128,(g,w,h)=>{g.fillStyle='#6f6c68';g.fillRect(0,0,w,h);for(let i=0;i<400;i++){g.fillStyle=`rgba(${i%2?30:210},${i%2?30:210},${i%2?30:210},.05)`;g.fillRect((i*37)%w,(i*91)%h,3,3);}g.fillStyle='#5e5b57';g.fillRect(0,126,w,2);g.fillRect(126,0,2,h);},3,3);
+const walnutT=tex(256,64,(g,w,h)=>{g.fillStyle='#5a3e2c';g.fillRect(0,0,w,h);for(let i=0;i<60;i++){g.strokeStyle=`rgba(${i%3?40:110},${i%3?26:76},${i%3?16:50},.35)`;g.lineWidth=1+(i%3);g.beginPath();const y=(i*7)%h;g.moveTo(0,y);g.bezierCurveTo(w*.3,y+4,w*.6,y-4,w,y+2);g.stroke();}},1,1);
+const panelT=tex(128,256,(g,w,h)=>{g.fillStyle='#5a3e2c';g.fillRect(0,0,w,h);for(let i=0;i<40;i++){g.strokeStyle=`rgba(${i%3?38:105},${i%3?25:72},${i%3?15:48},.35)`;g.lineWidth=1+(i%2);g.beginPath();const x=(i*11)%w;g.moveTo(x,0);g.bezierCurveTo(x+3,h*.3,x-3,h*.7,x+2,h);g.stroke();}g.fillStyle='#2e1f15';g.fillRect(0,0,2,h);},5,1);
+const stoneT=tex(512,512,(g,w,h)=>{g.fillStyle='#ece5da';g.fillRect(0,0,w,h);let r=7;const q=()=>(r=(r*16807)%2147483647)/2147483647;
+  for(let k=0;k<10;k++){g.strokeStyle=`rgba(150,132,112,${.15+q()*.3})`;g.lineWidth=.6+q()*2;g.beginPath();let x=0,y=q()*h;g.moveTo(x,y);while(x<w){x+=20+q()*40;y+=(q()-.5)*50;g.lineTo(x,y);}g.stroke();}});
+const rugT=tex(256,256,(g,w,h)=>{g.fillStyle='#e3d9c9';g.fillRect(0,0,w,h);for(let i=0;i<2000;i++){g.fillStyle=`rgba(160,145,125,${.05})`;g.fillRect((i*29)%w,(i*71)%h,2,2);}g.strokeStyle='#c2b29b';g.lineWidth=6;g.strokeRect(10,10,w-20,h-20);});
+const curtT=tex(64,8,(g,w,h)=>{const gr=g.createLinearGradient(0,0,w,0);gr.addColorStop(0,'#e9e4da');gr.addColorStop(.5,'#fbf8f2');gr.addColorStop(1,'#e9e4da');g.fillStyle=gr;g.fillRect(0,0,w,h);},12,1);
+function latticeDraw(g,w,h,bar,gap){g.fillStyle=gap;g.fillRect(0,0,w,h);g.strokeStyle=bar;g.lineWidth=7;const s=32;
+  for(let x=-h;x<w+h;x+=s){g.beginPath();g.moveTo(x,0);g.lineTo(x+h,h);g.stroke();g.beginPath();g.moveTo(x+h,0);g.lineTo(x,h);g.stroke();}
+  g.lineWidth=5;for(let y=0;y<=h;y+=s){g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke();}}
+const latT=tex(128,256,(g,w,h)=>latticeDraw(g,w,h,'#5a3e2c','#3a2a1e'),2,4);
+const latE=tex(128,256,(g,w,h)=>latticeDraw(g,w,h,'#000','#fff'),2,4);latE.encoding=THREE.LinearEncoding;
 
-const marble=tex(512,512,(g,w,h)=>{g.fillStyle='#f3f1ed';g.fillRect(0,0,w,h);let r=11;const q=()=>(r=(r*16807)%2147483647)/2147483647;
-  for(let k=0;k<14;k++){g.strokeStyle=`rgba(120,118,115,${.15+q()*.35})`;g.lineWidth=.6+q()*2.2;g.beginPath();let x=q()*w,y=0;g.moveTo(x,y);
-  while(y<h){x+=(q()-.5)*60;y+=20+q()*40;g.lineTo(x,y);}g.stroke();}},1,1);
-const lightTile=tex(256,256,(g,w,h)=>{g.fillStyle='#ece8e1';g.fillRect(0,0,w,h);g.fillStyle='#dcd6cc';g.fillRect(0,127,w,2);g.fillRect(127,0,2,h);},4,4);
-const stone=tex(128,128,(g,w,h)=>{g.fillStyle='#77746f';g.fillRect(0,0,w,h);for(let i=0;i<500;i++){g.fillStyle=`rgba(${i%2?40:200},${i%2?40:200},${i%2?40:200},.06)`;g.fillRect((i*37)%w,(i*91)%h,3,3);}g.fillStyle='#64615d';g.fillRect(0,126,w,2);g.fillRect(126,0,2,h);},3,3);
-const whiteFlute=tex(64,64,(g,w,h)=>{g.fillStyle='#efebe4';g.fillRect(0,0,w,h);for(let i=0;i<4;i++){g.fillStyle='#ddd7cd';g.fillRect(i*16,0,4,h);g.fillStyle='#faf8f4';g.fillRect(i*16+6,0,4,h);}},14,1);
-const rugGray=tex(256,256,(g,w,h)=>{g.fillStyle='#d9d6d0';g.fillRect(0,0,w,h);for(let i=0;i<40;i++){g.strokeStyle=`rgba(150,146,140,${.15+(i%5)*.05})`;g.lineWidth=1+(i%3);g.beginPath();g.moveTo(0,i*7);g.bezierCurveTo(80,i*7-30,170,i*7+30,256,i*7);g.stroke();}});
 const M=(c,o={})=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.8,metalness:0},o));
-const mat={wall:M(0xefe6d6,{roughness:.95}),wood:M(0xffffff,{map:woodFloor,roughness:.6}),tile:M(0xffffff,{map:tile,roughness:.4}),
- walnut:M(0x5b3e2c,{roughness:.55}),flute:M(0xffffff,{map:flute,roughness:.6}),oat:M(0xe4d8c4,{roughness:1}),oat2:M(0xd8c9b0,{roughness:1}),
- olive:M(0x56603f,{roughness:.9}),velvet:M(0x4f5a38,{roughness:.75,metalness:.05}),brass:M(0xb08d57,{roughness:.3,metalness:.85}),
- trav:M(0xd9cbb2,{roughness:.5}),linen:M(0xf3eee4,{roughness:1}),sand:M(0xd8c6a6,{roughness:1}),black:M(0x1d1c1a,{roughness:.3}),
- rug:M(0xffffff,{map:rugT,roughness:1}),cane:M(0xffffff,{map:cane,roughness:.8}),zel:M(0xffffff,{map:zellige,roughness:.25}),
- reeded:M(0xffffff,{map:reeded,roughness:.2,metalness:.1}),oak:M(0xc49a6c,{roughness:.6}),white:M(0xf7f4ee,{roughness:.3}),
- leaf:M(0x5d6b3e,{roughness:.9}),pot:M(0xb4694c),glass:new THREE.MeshStandardMaterial({color:0xcfe3e8,transparent:true,opacity:.25,roughness:.05}),
- tvwall:M(0xffffff,{map:flute,roughness:.6}),cushion:M(0x4f5a38,{roughness:.75}),throw2:M(0x56603f,{roughness:.9}),bedframe:M(0xd8c6a6,{roughness:1}),
- glow:new THREE.MeshStandardMaterial({color:0xfff1d6,emissive:0xffd9a0,emissiveIntensity:.9})};
+const mat={wall:M(0xece6db,{roughness:.95}),floor:M(0xffffff,{map:floorT,roughness:.45}),bath:M(0xffffff,{map:bathT,roughness:.35}),
+ walnut:M(0xffffff,{map:walnutT,roughness:.55}),panel:M(0xffffff,{map:panelT,roughness:.55}),stone:M(0xffffff,{map:stoneT,roughness:.35}),
+ lime:M(0xe8e1d5,{roughness:.6}),greige:M(0xc9bca9,{roughness:1}),greige2:M(0xbcae99,{roughness:1}),olive:M(0x555a3c,{roughness:.95}),henna:M(0x9b5636,{roughness:.95}),
+ bronze:M(0x8b6b4a,{roughness:.35,metalness:.8}),linen:M(0xf4f0e8,{roughness:1}),white:M(0xf7f4ee,{roughness:.3}),black:M(0x1b1a19,{roughness:.25}),
+ rug:M(0xffffff,{map:rugT,roughness:1}),leaf:M(0x5d6b3e,{roughness:.9}),pot:M(0xd9cfc0,{roughness:.7}),ac:M(0xf7f7f5,{roughness:.4}),
+ curtain:M(0xffffff,{map:curtT,roughness:1,transparent:true,opacity:.9}),blackout:M(0xd7cbb8,{roughness:1}),
+ glass:new THREE.MeshStandardMaterial({color:0xcfe3e8,transparent:true,opacity:.22,roughness:.05}),
+ lattice:new THREE.MeshStandardMaterial({map:latT,emissiveMap:latE,emissive:0xffc98a,emissiveIntensity:0,roughness:.6}),
+ strip:new THREE.MeshStandardMaterial({color:0xfff3e0,emissive:0xffcf8f,emissiveIntensity:0}),
+ shade:new THREE.MeshStandardMaterial({color:0xf3ece0,emissive:0xffd29a,emissiveIntensity:0,roughness:.9}),
+ mirror:new THREE.MeshStandardMaterial({color:0xc9d2d6,roughness:.08,metalness:.15,emissive:0xfff0dc,emissiveIntensity:0}),
+ art1:null,art2:null};
+mat.art1=M(0xffffff,{map:tex(256,110,(g,w,h)=>{const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#e8dccb');gr.addColorStop(.55,'#d8c6ad');gr.addColorStop(1,'#c4ae90');g.fillStyle=gr;g.fillRect(0,0,w,h);g.strokeStyle='#9b5636';g.lineWidth=2;g.beginPath();g.moveTo(0,h*.58);g.bezierCurveTo(w*.3,h*.5,w*.6,h*.66,w,h*.56);g.stroke();})});
+mat.art2=M(0xffffff,{map:tex(200,140,(g,w,h)=>{g.fillStyle='#ece3d4';g.fillRect(0,0,w,h);g.strokeStyle='#2b2926';g.lineCap='round';for(let i=0;i<5;i++){g.lineWidth=3+i*1.5;g.beginPath();g.arc(w*.5,h*.62,20+i*12,Math.PI*(1.05+i*.05),Math.PI*(1.9-i*.04));g.stroke();}g.fillStyle='#9b5636';g.beginPath();g.arc(w*.68,h*.32,6,0,7);g.fill();})});
 
 function add(m,sh=true){m.castShadow=sh;m.receiveShadow=true;scene.add(m);return m;}
-// x,y,w,d in plan cm; h,e in metres
 function box(x,y,w,d,h,m,e=0,sh=true){const o=new THREE.Mesh(new THREE.BoxGeometry(w*S,h,d*S),m);o.position.set((x+w/2)*S,e+h/2,(y+d/2)*S);return add(o,sh);}
-function cyl(cx,cy,r,h,m,e=0,r2){const o=new THREE.Mesh(new THREE.CylinderGeometry(r*S,(r2??r)*S,h,40),m);o.position.set(cx*S,e+h/2,cy*S);return add(o);}
-function sph(cx,cy,r,m,e){const o=new THREE.Mesh(new THREE.SphereGeometry(r*S,24,16),m);o.position.set(cx*S,e,cy*S);return add(o);}
+function cyl(cx,cy,r,h,m,e=0,r2,seg=40){const o=new THREE.Mesh(new THREE.CylinderGeometry(r*S,(r2??r)*S,h,seg),m);o.position.set(cx*S,e+h/2,cy*S);return add(o);}
+function sph(cx,cy,r,m,e,sh=true){const o=new THREE.Mesh(new THREE.SphereGeometry(r*S,24,16),m);o.position.set(cx*S,e,cy*S);return add(o,sh);}
+function grp(cx,cy,rot,build){const g=new THREE.Group();const p=(x,y,w,d,h,m,e)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w*S,h,d*S),m);o.position.set(x*S,e+h/2,y*S);o.castShadow=o.receiveShadow=true;g.add(o);return o;};build(p,g);g.position.set(cx*S,0,cy*S);g.rotation.y=rot;scene.add(g);return g;}
 
-[[0,0,405,380,'wood'],[415,0,235,185,'tile'],[415,195,235,185,'tile'],[0,385,650,445,'wood'],[420,830,410,110,'wood'],[0,785,420,395,'wood'],[0,1180,430,80,'tile']]
+// floors
+[[0,0,405,385,'floor'],[410,0,240,190,'bath'],[410,190,240,195,'bath'],[0,385,650,445,'floor'],[420,830,410,150,'floor'],[0,785,420,395,'floor'],[0,1180,310,90,'bath']]
  .forEach(([x,y,w,d,k])=>box(x,y,w,d,.02,mat[k],-.02,false));
-
+// walls
 const walls=[];
-function wall(x1,y1,x2,y2,t=10){const len=Math.hypot(x2-x1,y2-y1)+t,o=new THREE.Mesh(new THREE.BoxGeometry(len*S,1,t*S),mat.wall);
-  o.position.set((x1+x2)/2*S,.5,(y1+y2)/2*S);o.rotation.y=-Math.atan2(y2-y1,x2-x1);add(o);walls.push(o);}
-[[0,0,650,0],[650,0,650,830],[650,830,830,830],[830,830,830,850],[420,940,830,940],[0,0,0,1260],[0,1260,430,1260],[430,1180,430,1260],
- [0,385,300,385],[390,385,650,385],[410,0,410,60],[410,130,410,250],[410,320,410,385],[410,190,650,190],
- [0,785,300,785],[390,785,420,785],[420,785,420,1180],[0,1180,30,1180],[290,1180,420,1180]].forEach(w=>wall(...w));
-box(30,1177,260,6,2.4,mat.glass,0,false);
+function wall(x1,y1,x2,y2,t=10,sill=0,head=0){const len=Math.hypot(x2-x1,y2-y1)+t;
+  const mk=(e0,e1)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(len*S,1,t*S),mat.wall);o.position.set((x1+x2)/2*S,0,(y1+y2)/2*S);o.rotation.y=-Math.atan2(y2-y1,x2-x1);add(o);walls.push({o,e0,e1});};
+  if(sill||head){mk(0,sill);mk(head,9);}else mk(0,9);}
+[[0,0,650,0],[650,0,650,830],[650,830,830,830],[830,830,830,860],[830,960,830,980],[420,980,830,980],[420,785,420,1180],
+ [0,0,0,140],[0,268,0,470],[0,700,0,1270],[0,1270,310,1270],[310,1180,310,1270],
+ [0,385,300,385],[390,385,440,385],[520,385,650,385],[410,0,410,42],[410,113,410,385],[410,190,650,190],
+ [0,785,300,785],[390,785,420,785],[0,1180,30,1180],[290,1180,420,1180]].forEach(w=>wall(...w));
+// windows: sill + head pieces on the facade
+wall(0,140,0,268,10,.9,2.3);wall(0,470,0,700,10,.4,2.4);
+box(-3,140,6,128,1.4,mat.glass,.9,false);box(-3,470,6,230,2.0,mat.glass,.4,false);box(30,1177,260,6,2.4,mat.glass,0,false);
+let WALLH=1.05;
+let clip=null;
+function setWalls(h){WALLH=h;walls.forEach(({o,e0,e1})=>{const top=Math.min(e1,h),bot=Math.min(e0,h),hh=Math.max(top-bot,.001);o.scale.y=hh;o.position.y=bot+hh/2;o.visible=top>bot+.001;});
+  if(!clip){const wset=new Set(walls.map(w=>w.o));clip=[];scene.children.forEach(o=>{if(!(o.isMesh||o.isGroup)||wset.has(o))return;const b=new THREE.Box3().setFromObject(o);if(b.max.y<.05)return;clip.push({o,base:b.min.y,top:b.max.y,y0:o.position.y,isG:o.isGroup});});}
+  clip.forEach(c=>{if(c.base>=h-.01){c.o.visible=false;return;}c.o.visible=true;
+    if(c.isG)return;const full=c.top-c.base,f=Math.min(1,(h-c.base)/full);c.o.scale.y=f;c.o.position.y=c.base+(c.y0-c.base)*f;});}
+const tall=[];
+// curtains (full height, ceiling pocket at 2.8)
+function curtain(x,y,w,d){const c=box(x,y,w,d,2.68,mat.curtain,.02,false);tall.push(c);const s=box(x,y,w,d,.03,mat.strip,2.74,false);tall.push(s);}
+curtain(8,392,6,386);curtain(8,6,6,310);curtain(6,1162,344,6);
+box(16,640,6,138,2.68,mat.blackout,.02,false);tall.push(scene.children[scene.children.length-1]);
 
-// LIVING
-box(40,386,210,4,2.4,mat.tvwall);
-box(40,392,210,40,.32,mat.walnut,.3);
-box(75,394,140,4,.8,mat.black,.95);
-box(30,470,260,290,.015,mat.rug,0,false);
-box(30,680,240,95,.42,mat.oat);box(30,755,240,20,.42,mat.oat,.42);
-box(30,680,16,95,.2,mat.oat,.42);box(254,680,16,95,.2,mat.oat,.42);
-for(let i=0;i<3;i++)box(48+i*69.3,688,68,66,.1,mat.oat2,.42);
-[[70,742,-.2],[230,742,.2]].forEach(([x,y,r])=>{const c=box(x-20,y-6,40,12,.38,mat.cushion,.5);c.rotation.z=r;});
-cyl(150,580,42,.04,mat.trav,.36);cyl(150,580,22,.36,mat.trav,0,26);
-(function(){const g=new THREE.Group();const p=(x,y,w,d,h,m,e)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w*S,h,d*S),m);o.position.set(x*S,e+h/2,y*S);o.castShadow=true;g.add(o);};
-  [[-34,-34],[34,-34],[-34,34],[34,34]].forEach(([a,b])=>p(a,b,5,5,.42,mat.walnut,0));
-  p(0,0,72,72,.04,mat.walnut,.38);p(0,4,64,62,.08,mat.cane,.42);p(0,32,66,6,.5,mat.cane,.45);p(0,4,60,56,.1,mat.oat2,.5);
-  p(-36,0,5,72,.04,mat.walnut,.62);p(36,0,5,72,.04,mat.walnut,.62);
-  g.position.set(49*S,0,509*S);g.rotation.y=Math.PI*0.62;scene.add(g);})();
-cyl(40,730,14,.28,mat.pot);sph(40,730,26,mat.leaf,.6);cyl(40,730,2,.4,mat.walnut,.28);
-cyl(278,420,12,.02,mat.brass);cyl(278,420,1.2,1.45,mat.brass,.02);cyl(278,420,17,.3,mat.linen,1.35,21);
-// dining
-cyl(365,585,40,.03,mat.walnut,.72);cyl(365,585,6,.72,mat.walnut);cyl(365,585,24,.03,mat.walnut);
-function chair(cx,cy){const a=Math.atan2(585-cy,365-cx),g=new THREE.Group(),p=(x,y,w,d,h,m,e)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w*S,h,d*S),m);o.position.set(x*S,e+h/2,y*S);o.castShadow=true;g.add(o);};
-  p(0,0,44,44,.06,mat.cane,.42);[[-19,-19],[19,-19],[-19,19],[19,19]].forEach(([a2,b])=>p(a2,b,4,4,.42,mat.walnut,0));p(-20,0,4,42,.4,mat.walnut,.48);
-  g.position.set(cx*S,0,cy*S);g.rotation.y=-a;scene.add(g);}
-[[365,520],[428,603],[340,646]].forEach(c=>chair(...c));
-sph(365,585,16,mat.glow,1.85);cyl(365,585,.5,.55,mat.black,2.05);
-const pl=new THREE.PointLight(0xffd29a,.6,4);pl.position.set(3.65,1.75,5.85);scene.add(pl);
+// ===== ENTRY
+box(655,832,170,35,2.6,mat.lime);box(700,833,60,34,.4,mat.walnut,.95);box(702,833,56,32,.03,mat.stone,.95);
+const lat=box(421,855,5,100,2.4,mat.lattice,.1);tall.push(lat);
+box(426,861,22,90,.03,mat.stone,.9);cyl(437,880,7,.12,mat.bronze,.93);cyl(437,925,9,.28,mat.henna,.93,6);
+box(700,972,60,5,1.8,mat.mirror,.25);
+box(600,860,8,100,.02,mat.rug,0,false);
+// ===== LIVING
+const tvw=box(0,385,285,7,2.8,mat.panel);tall.push(tvw);
+box(68,392,145,4,.83,mat.black,.64);
+box(30,392,220,40,.27,mat.walnut,.3);box(30,392,220,40,.03,mat.stone,.57);box(32,395,216,34,.02,mat.strip,.28,false);
+box(15,520,270,200,.015,mat.rug,0,false);
+// sofa
+box(30,690,220,95,.2,mat.greige2,.18);box(30,763,220,22,.48,mat.greige,.38);
+box(30,690,14,95,.3,mat.greige,.38);box(236,690,14,95,.3,mat.greige,.38);
+for(let i=0;i<3;i++)box(46+i*63,694,62,70,.16,mat.greige,.38);
+[[60,745,mat.olive],[105,748,mat.greige2],[185,748,mat.greige2],[218,745,mat.olive]].forEach(([x,y,m])=>box(x-22,y-6,44,12,.42,m,.52));
+box(118,752,44,10,.26,mat.henna,.54);
+[[36,696],[244,696],[36,780],[244,780]].forEach(([x,y])=>box(x-2,y-2,4,4,.18,mat.walnut,0));
+// coffee table
+(function(){const t=new THREE.Mesh(new THREE.CylinderGeometry(1,1,.035,48),mat.stone);t.scale.set(.65,1,.35);t.position.set(1.40,.345,5.95);add(t);
+ const b=new THREE.Mesh(new THREE.CylinderGeometry(1,1,.32,48),mat.walnut);b.scale.set(.5,1,.24);b.position.set(1.40,.16,5.95);add(b);})();
+sph(115,592,9,mat.bronze,.39);box(150,585,26,20,.06,mat.greige2,.36);
+// C table
+cyl(268,722,20,.02,mat.bronze,.58);cyl(268,740,1.5,.58,mat.bronze);
+// lounge chair
+grp(67,510,Math.PI*0.5+0.52,(p)=>{[[-32,-33],[32,-33],[-32,33],[32,33]].forEach(([a,b])=>p(a,b,4,4,.4,mat.walnut,0));
+ p(0,0,70,72,.05,mat.walnut,.36);p(0,2,64,64,.13,mat.olive,.41);p(0,33,66,10,.38,mat.olive,.5);p(-35,0,5,70,.05,mat.walnut,.6);p(35,0,5,70,.05,mat.walnut,.6);});
+// floor lamp
+cyl(28,590,13,.02,mat.bronze);cyl(28,590,1.1,1.35,mat.bronze,.02);cyl(28,590,20,.3,mat.shade,1.3,23);
+// plant
+cyl(280,755,20,.42,mat.pot);[[0,0,1.2],[8,-6,1.35],[-7,5,1.05],[3,9,1.45]].forEach(([a,b,h])=>{const l=box(272+a,752+b,16,3,.5,mat.leaf,h-.25);l.rotation.z=(a-2)*.03;});
+// art above sofa
+box(70,780,140,4,.6,mat.art1,1.05);box(68,781,144,3,.64,mat.walnut,1.03);
+// AC units
+box(56,772,114,22,.3,mat.ac,2.25);box(56,786,114,22,.3,mat.ac,2.25);box(56,0,114,22,.3,mat.ac,2.25);
+// ===== DINING
+cyl(380,585,50,.035,mat.walnut,.72);cyl(380,585,8,.7,mat.walnut,.02);cyl(380,585,28,.02,mat.walnut);
+[[318,523],[442,523],[318,647],[442,647]].forEach(([cx,cy])=>{const a=Math.atan2(585-cy,380-cx);
+ grp(cx,cy,-a,(p)=>{[[-20,-20],[20,-20],[-20,20],[20,20]].forEach(([u,v])=>p(u,v,3.5,3.5,.45,mat.walnut,0));p(0,0,48,48,.07,mat.greige,.44);p(-23,0,6,44,.36,mat.greige,.5);});});
+cyl(380,585,30,.24,mat.shade,1.47,26);cyl(380,585,.4,.8,mat.black,1.71);
+box(375,575,10,10,.08,mat.stone,.755);
+// ===== KITCHEN
+box(590,392,60,348,.86,mat.lime);box(588,392,62,348,.035,mat.stone,.86);
+box(646,392,4,348,.6,mat.stone,.9);
+const up=box(615,392,35,348,.75,mat.lime,1.5);tall.push(up);const usl=box(613,392,3,348,.02,mat.strip,1.49,false);tall.push(usl);
+box(600,400,40,58,.01,mat.black,.9);box(603,520,32,50,.03,mat.white,.875);box(588,742,62,86,2.3,mat.lime);
+[460,560,640,700].forEach(y=>box(587,y,2,16,.02,mat.bronze,.75));box(586,770,2,30,.02,mat.bronze,1.0);
+// ===== MASTER
+const hb=box(22,0,270,8,1.25,mat.walnut,0);box(30,1,254,8,1.13,mat.greige,.06);box(30,6,254,3,.02,mat.strip,1.24,false);
+box(59,9,192,212,.28,mat.greige2,.06);box(63,13,184,204,.24,mat.linen,.34);box(63,90,184,127,.04,mat.greige,.58);box(63,180,184,30,.05,mat.olive,.61);
+[[72,22],[160,22]].forEach(([x,y])=>box(x,y,78,50,.16,mat.linen,.58));box(118,74,74,16,.22,mat.greige,.6);
+[[8,9],[254,9]].forEach(([x,y])=>{box(x,y,48,40,.55,mat.walnut);box(x+16,y+12,16,16,.03,mat.stone,.55);});
+[[28,10],[282,10]].forEach(([x,y])=>{box(x,y,4,14,.02,mat.bronze,1.2);sph(x+2,y+16,5,mat.shade,1.18);});
+box(30,100,250,200,.015,mat.rug,0,false);
+const wr=box(0,320,290,60,2.75,mat.lime);tall.push(wr);[58,116,174,232].forEach(x=>{const l=box(x,318,1,2,2.6,mat.wall,.05);tall.push(l);});
+[50,108,166,224,282].forEach(x=>{const h=box(x-1,317,2,3,.4,mat.bronze,1.0);tall.push(h);});
+box(360,170,45,110,.12,mat.walnut,.65);const mm=box(402,195,3,60,.95,mat.mirror,1.05);cyl(335,225,18,.45,mat.greige);
+// ===== BED 2
+box(0,869,8,212,1.15,mat.walnut);box(1,879,8,192,1.03,mat.greige2,.06);
+box(8,889,212,172,.28,mat.greige2,.06);box(12,893,204,164,.24,mat.linen,.34);box(150,893,60,164,.05,mat.henna,.59);
+[[20,905],[20,980]].forEach(([x,y])=>box(x,y,50,68,.15,mat.linen,.58));
+[[5,839],[5,1066]].forEach(([x,y])=>{box(x,y,45,45,.55,mat.walnut);sph(12,y+22,5,mat.shade,1.25);box(1,y+18,4,8,.12,mat.bronze,1.12);});
+box(225,915,40,120,.4,mat.walnut);box(227,917,36,116,.06,mat.olive,.4);
+box(60,850,160,230,.015,mat.rug,0,false);
+const w2=box(355,895,60,270,2.75,mat.lime);tall.push(w2);[949,1003,1057,1111].forEach(y=>{const l=box(353,y,2,1,2.6,mat.wall,.05);tall.push(l);});
+box(0,938,2,74,1.04,mat.bronze,1.28);box(2,940,3,70,1.0,mat.art2,1.3);
+// ===== BATHS
+[[455,8],[455,377-46]].forEach(([x,y],i)=>{const yy=i?331:8;box(x,yy,80,46,.42,mat.walnut,.45);box(x,yy,80,46,.03,mat.stone,.87);const mr=box(x+5,i?381:2,70,2,.9,mat.mirror,1.05);});
+box(560,95,85,90,.02,mat.white,.0);box(558,95,2,90,2.0,mat.glass,0,false);
+box(575,10,40,60,.42,mat.white);box(575,320,40,60,.42,mat.white);box(560,195,85,90,.02,mat.white,0);box(558,195,2,90,2.0,mat.glass,0,false);
+// ===== BALCONY
+box(40,1238,230,28,.4,mat.pot);[60,100,140,180,220,250].forEach((x,i)=>sph(x,1252,18+(i%2)*6,mat.leaf,.55+(i%3)*.08));
+box(320,1186,80,70,.6,mat.ac);
 
-// KITCHEN
-box(590,392,58,436,.86,mat.olive);box(588,392,60,436,.04,mat.white,.86);
-box(644,392,4,436,.6,mat.zel,.9);
-const uppers=box(612,392,36,436,.7,mat.walnut,1.5);
-box(600,470,40,55,.02,mat.black,.9);box(605,620,30,45,.03,mat.trav,.89);
-[500,700].forEach(y=>box(586,y,3,12,.02,mat.brass,.6));
+// night lights
+const lamps=[];function pl(x,y,e,i,d){const l=new THREE.PointLight(0xffc888,i,d,2);l.position.set(x*S,e,y*S);l.visible=false;scene.add(l);lamps.push(l);}
+pl(28,590,1.35,1.4,4.5);pl(380,585,1.4,1.6,4);pl(155,40,1.5,1.0,4);pl(20,975,1.4,.9,3.5);pl(440,905,1.3,1.2,3.5);pl(615,560,1.4,.7,3);pl(140,430,.25,.6,2.5);pl(30,580,2.6,.7,4.5);pl(330,1150,2.6,.5,4);
+function setMode(night){hemi.intensity=night?.06:.8;sun.intensity=night?0:.9;renderer.toneMappingExposure=night?1.25:1.05;
+  mat.strip.emissiveIntensity=night?1.6:0;mat.shade.emissiveIntensity=night?1.2:0;mat.lattice.emissiveIntensity=night?1.4:0;mat.mirror.emissiveIntensity=night?.35:0;
+  lamps.forEach(l=>l.visible=night);stage.classList.toggle('night',night);
+  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.mode==='night')===night)));}
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode==='night')));
 
-// MASTER
-box(90,40,210,300,.015,mat.rug,0,false);
-box(6,80,12,200,1.3,mat.velvet);
-box(18,90,200,180,.3,mat.bedframe);box(22,94,192,172,.24,mat.linen,.3);box(80,92,138,176,.06,mat.sand,.54);
-[[30,105],[30,190]].forEach(([x,y])=>box(x,y,40,75,.14,mat.linen,.54));
-[[8,42],[8,276]].forEach(([x,y])=>{box(x,y,42,42,.52,mat.flute);sph(x+21,y+21,7,mat.trav,.6);box(1,y+15,4,12,.12,mat.brass,1.25);});
-box(70,318,225,60,2.3,mat.walnut);[0,1,2].forEach(i=>box(78+i*72,315,70,4,2.1,mat.reeded,.1));
-box(350,40,52,110,.04,mat.walnut,.75);box(398,55,4,80,1.1,mat.brass,1.0);cyl(330,95,18,.45,mat.oat);
-
-// BEDROOM 2
-box(80,850,180,200,.015,mat.rug,0,false);
-box(6,860,10,160,1.1,mat.cane);
-box(16,870,200,140,.3,mat.oak);box(20,874,192,132,.24,mat.linen,.3);box(90,872,126,136,.06,mat.throw2,.54);
-[[28,885],[28,945]].forEach(([x,y])=>box(x,y,38,55,.13,mat.linen,.54));
-box(8,826,40,40,.5,mat.oak);sph(28,846,9,mat.glow,.68);
-box(362,890,55,140,.04,mat.oak,.74);cyl(330,960,22,.46,mat.cane);box(305,945,6,30,.4,mat.walnut,.48);
-box(295,1110,122,60,2.3,mat.walnut);[0,1].forEach(i=>box(302+i*57,1107,53,4,2.1,mat.reeded,.1));
-cyl(380,1060,13,.3,mat.pot);sph(380,1060,24,mat.leaf,.7);
-
-// BATHS & ENTRY
-[40,240].forEach(y=>{box(600,y,48,90,.5,mat.walnut,.35);box(604,y+10,40,70,.02,mat.trav,.86);});
-box(560,910,130,28,.85,mat.walnut);
-
-// BALCONY
-box(60,1252,70,6,.04,mat.walnut,.72);
-[170,230].forEach(x=>{box(x-20,1200,40,40,.04,mat.walnut,.44);box(x-20,1236,40,4,.45,mat.walnut,.44);});
-cyl(360,1222,20,.45,mat.pot);sph(360,1222,32,mat.leaf,1.0);
-cyl(405,1225,15,.35,mat.pot);sph(405,1225,20,mat.leaf,.55);
-
-// looks: material -> [color, texture]
-const LOOKS={
- oasis:{wall:[0xefe6d6],wood:[0xffffff,woodFloor],tile:[0xffffff,tile],tvwall:[0xffffff,flute],flute:[0xffffff,flute],walnut:[0x5b3e2c],
-  oat:[0xe4d8c4],oat2:[0xd8c9b0],velvet:[0x4f5a38],cushion:[0x4f5a38],olive:[0x56603f],zel:[0xffffff,zellige],rug:[0xffffff,rugT],
-  cane:[0xffffff,cane],bedframe:[0xd8c6a6],sand:[0xd8c6a6],throw2:[0x56603f],trav:[0xd9cbb2],oak:[0xc49a6c]},
- raz:{wall:[0xf4f1ec],wood:[0xffffff,lightTile],tile:[0xffffff,stone],tvwall:[0xffffff,marble],flute:[0xffffff,whiteFlute],walnut:[0x3b2d24],
-  oat:[0xf2eee6],oat2:[0xe9e3d8],velvet:[0x2a2927],cushion:[0xe6e0d6],olive:[0xefece6],zel:[0xffffff,marble],rug:[0xffffff,rugGray],
-  cane:[0xe8e1d5],bedframe:[0x2a2927],sand:[0x8a8784],throw2:[0xa0522d],trav:[0xf3f1ed],oak:[0xe6dfd3]}};
-function applyLook(k){for(const [n,[c,m]] of Object.entries(LOOKS[k])){const x=mat[n];x.color.setHex(c);x.map=m||null;x.needsUpdate=true;}
-  scene.background=null;document.querySelectorAll('[data-look]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.look===k)));renderInfo(k);}
-const INFO={raz:[["Living","Cream bouclé modular sofa, white marble TV wall with a floating console, feather chandelier, sheer floor-to-ceiling curtains"],
-  ["Master","Black upholstered bed, grey throw, oval mirror, dark wood wardrobe, white fluted nightstands"],
-  ["Bedroom 2","Light bed with a rust throw and bench at the foot, tall dark wardrobe"],
-  ["Kitchen & baths","White cabinets with a marble-look splash, dark grey stone-look bathroom tiles"]],
- oasis:[["Living","Oat sofa, fluted walnut TV wall, cane lounge chair, travertine coffee table, clay-bordered rug"],
-  ["Master","Olive velvet headboard, sand linen bedding, walnut wardrobe with reeded glass"],
-  ["Bedroom 2","Rattan headboard, olive throw, oak desk"],
-  ["Kitchen & baths","Olive lower cabinets with a clay zellige splash, warm travertine-look tiles"]]};
-function renderInfo(k){document.getElementById('lookinfo').innerHTML=INFO[k].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('');}
-document.querySelectorAll('[data-look]').forEach(b=>b.addEventListener('click',()=>applyLook(b.dataset.look)));
-applyLook('raz');
-
-// views: camera [x,y plan cm, height m], target [x,y,height], wall height m
-const V={overview:[[1100,1450,9.5],[400,620,0],1.05],living:[[560,520,1.55],[60,640,1.0],2.7],dining:[[60,600,1.5],[560,560,1.0],2.7],
- master:[[395,215,1.6],[20,170,0.8],2.7],bed2:[[395,1160,1.55],[40,930,0.7],2.7]};
-let goal=null,wallH=1.05;const FOV={overview:50};
-function setWalls(h){walls.forEach(w=>{w.scale.y=h;w.position.y=h/2;});uppers.visible=h>2;}
-function go(k){const [p,t,h]=V[k];camera.fov=FOV[k]||66;camera.updateProjectionMatrix();goal={p:new THREE.Vector3(p[0]*S,p[2],p[1]*S),t:new THREE.Vector3(t[0]*S,t[2],t[1]*S),h};
+const V={overview:[[1150,1500,10],[400,620,0],1.05,50,"The whole flat with walls cut low. Entrance arm on the right, bedrooms on the left."],
+ entry:[[815,915,1.6],[420,905,1.3],2.8,62,"Arrival: the walnut lattice closes the view; the living area opens on the right."],
+ living:[[540,560,1.55],[0,620,1.05],2.8,66,"Living from the dining side: walnut media wall on the right, sofa on the left, chair by the window."],
+ tv:[[140,745,1.12],[140,385,1.15],2.8,62,"Seated on the sofa: the 65\" TV integrated into the walnut wall, console floating below."],
+ dining:[[60,620,1.5],[620,560,1.0],2.8,64,"Dining under the pendant, with the stone splash and tall fridge column beyond."],
+ master:[[385,300,1.6],[150,20,0.9],2.8,66,"Master: bed on the north wall, window as side light, wardrobe on the right."],
+ bed2:[[320,860,1.55],[0,1000,0.95],2.8,66,"Bedroom 2: upholstered headboard, art above, bench at the foot, balcony sheer on the left."]};
+let goal=null;
+function go(k){const [p,t,h,f,c]=V[k];goal={p:new THREE.Vector3(p[0]*S,p[2],p[1]*S),t:new THREE.Vector3(t[0]*S,t[2],t[1]*S),h};camera.fov=f;camera.updateProjectionMatrix();cap.textContent=c;
   document.querySelectorAll('[data-v]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===k)));}
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.v)));
-const [p0,t0]=V.overview;camera.position.set(p0[0]*S,p0[2],p0[1]*S);controls.target.set(t0[0]*S,t0[2],t0[1]*S);setWalls(wallH);
-
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const [p0,t0]=V.overview;camera.position.set(p0[0]*S,p0[2],p0[1]*S);controls.target.set(t0[0]*S,t0[2],t0[1]*S);setWalls(1.05);cap.textContent=V.overview[4];
 function size(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
 new ResizeObserver(size).observe(stage);size();
 controls.addEventListener('start',()=>{if(goal)goal.p=null;});
 (function loop(){requestAnimationFrame(loop);
   if(goal){const k=reduce?1:.08;
     if(goal.p){camera.position.lerp(goal.p,k);controls.target.lerp(goal.t,k);if(camera.position.distanceTo(goal.p)<.01)goal.p=null;}
-    if(Math.abs(wallH-goal.h)>.005){wallH+=(goal.h-wallH)*(reduce?1:.1);setWalls(wallH);}}
+    if(Math.abs(WALLH-goal.h)>.005)setWalls(WALLH+(goal.h-WALLH)*(reduce?1:.1));}
   controls.update();renderer.render(scene,camera);})();
 })();
 </script>
