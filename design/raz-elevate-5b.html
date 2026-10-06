@@ -88,6 +88,16 @@ td small{display:block;color:var(--muted);font-size:.82rem;line-height:1.4;margi
 #stage{position:relative;width:100%;height:min(68vh,620px);min-height:360px;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(var(--paper),var(--sand));touch-action:none}
 #stage canvas{display:block;width:100%;height:100%}
 #stage-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);max-width:none}
+.looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.looks button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:12px 16px;border-radius:4px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;font:400 .95rem var(--body)}
+.looks button b{font-family:var(--display);font-weight:400;font-size:1.15rem}
+.looks button span{font-size:.82rem;color:var(--muted)}
+.looks button[aria-pressed="true"]{border-color:var(--brass);box-shadow:inset 0 0 0 1px var(--brass)}
+.looks button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.lookinfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 24px;font-size:.92rem}
+.lookinfo div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.lookinfo b{font-weight:700}
+.lookinfo span{color:var(--muted);line-height:1.45}
 ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:70ch}
 </style>
 
@@ -95,7 +105,7 @@ ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;ma
 <body>
 <div class="wrap">
 <header>
-  <div class="eyebrow">Raz Elevate · Block D · Floor 5 · Flat B</div>
+  <div class="eyebrow">Raz Elevate · Block D · Floor 5 · Flat B · 86 m² · 2 bedrooms · 2 baths</div>
   <h1>Oasis Modern</h1>
   <div class="ar">واحة · a quiet desert luxury</div>
   <p class="lede">A design for your two-bedroom flat that looks like a boutique hotel in AlUla. It's built from travertine, walnut, olive velvet and brushed brass. The style is warm and a little exotic without being loud, and most pieces come from regular stores. The money goes into a few hero pieces that people will notice.</p>
@@ -104,6 +114,10 @@ ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;ma
 <section id="view3d">
   <div class="stack"><div class="eyebrow">See it</div><h2>Walk through your flat in 3D</h2>
   <p>Drag to turn, pinch or scroll to zoom. Pick a room to stand inside it at eye level.</p></div>
+  <div class="looks" role="group" aria-label="Design style">
+    <button type="button" data-look="raz" aria-pressed="true"><b>Raz showroom</b><span>Cream bouclé, white marble, black accents</span></button>
+    <button type="button" data-look="oasis" aria-pressed="false"><b>Oasis Modern</b><span>Walnut, olive velvet, travertine, clay</span></button>
+  </div>
   <div class="views" role="group" aria-label="Camera views">
     <button type="button" data-v="overview" aria-pressed="true">Whole flat</button>
     <button type="button" data-v="living">Living room</button>
@@ -113,6 +127,7 @@ ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;ma
   </div>
   <div id="stage"><p id="stage-msg">Loading the 3D model…</p></div>
   <p class="note">A simplified model to show layout, colours and proportions. The real pieces will have more detail.</p>
+  <div class="lookinfo" id="lookinfo"></div>
 </section>
 
 <section>
@@ -223,7 +238,7 @@ ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;ma
         <circle class="f" cx="170" cy="1220" r="22"/><circle class="f" cx="230" cy="1220" r="22"/>
         <circle class="acc" cx="350" cy="1220" r="22"/><circle class="acc" cx="400" cy="1220" r="16"/>
         <circle class="dot" cx="290" cy="1222" r="15"/><text class="num" x="290" y="1227" text-anchor="middle">14</text>
-        <text class="dim" x="10" y="1286">BALCONY · only 75 cm deep</text>
+        <text class="dim" x="10" y="1286">BALCONY · 90 cm deep</text>
       </svg>
     </div>
     <div class="legend">
@@ -314,8 +329,8 @@ const rooms=[
    ["Bathroom upgrades × 2","Round brass mirrors, a stone-look tray, waffle towels and brass or black tap covers.",1000,2500],
    ["Entry: shoe cabinet and mirror","Slim 130 cm cabinet with a round brass mirror and a catch-all tray.",800,1600]
   ]},
- {id:"balcony",name:"Balcony",size:"510 × 75 cm",
-  mood:"It's only 75 cm deep, so keep it to a coffee spot for two that folds away.",
+ {id:"balcony",name:"Balcony",size:"510 × 90 cm",
+  mood:"It's only 90 cm deep, so keep it to a coffee spot for two that folds away, with planters along the rail like the Raz render.",
   items:[
    ["Fold-down wall table and 2 folding chairs","Teak or powder-coated metal.",500,1100],
    ["Planters, plants and lanterns","Olive tree or bird of paradise in clay pots, plus solar lanterns.",400,900]
@@ -1434,6 +1449,13 @@ const rugT=tex(256,256,(g,w,h)=>{g.fillStyle='#e6d8bf';g.fillRect(0,0,w,h);g.str
   g.fillStyle='rgba(169,87,61,.18)';for(let i=0;i<6;i++){g.beginPath();g.moveTo(128,50+i*28);g.lineTo(150,64+i*28);g.lineTo(128,78+i*28);g.lineTo(106,64+i*28);g.fill();}});
 const cane=tex(64,64,(g,w,h)=>{g.fillStyle='#d2ae76';g.fillRect(0,0,w,h);g.strokeStyle='rgba(110,75,35,.55)';g.lineWidth=2;for(let i=-64;i<64;i+=10){g.beginPath();g.moveTo(i,0);g.lineTo(i+64,64);g.stroke();g.beginPath();g.moveTo(i+64,0);g.lineTo(i,64);g.stroke();}},2,2);
 
+const marble=tex(512,512,(g,w,h)=>{g.fillStyle='#f3f1ed';g.fillRect(0,0,w,h);let r=11;const q=()=>(r=(r*16807)%2147483647)/2147483647;
+  for(let k=0;k<14;k++){g.strokeStyle=`rgba(120,118,115,${.15+q()*.35})`;g.lineWidth=.6+q()*2.2;g.beginPath();let x=q()*w,y=0;g.moveTo(x,y);
+  while(y<h){x+=(q()-.5)*60;y+=20+q()*40;g.lineTo(x,y);}g.stroke();}},1,1);
+const lightTile=tex(256,256,(g,w,h)=>{g.fillStyle='#ece8e1';g.fillRect(0,0,w,h);g.fillStyle='#dcd6cc';g.fillRect(0,127,w,2);g.fillRect(127,0,2,h);},4,4);
+const stone=tex(128,128,(g,w,h)=>{g.fillStyle='#77746f';g.fillRect(0,0,w,h);for(let i=0;i<500;i++){g.fillStyle=`rgba(${i%2?40:200},${i%2?40:200},${i%2?40:200},.06)`;g.fillRect((i*37)%w,(i*91)%h,3,3);}g.fillStyle='#64615d';g.fillRect(0,126,w,2);g.fillRect(126,0,2,h);},3,3);
+const whiteFlute=tex(64,64,(g,w,h)=>{g.fillStyle='#efebe4';g.fillRect(0,0,w,h);for(let i=0;i<4;i++){g.fillStyle='#ddd7cd';g.fillRect(i*16,0,4,h);g.fillStyle='#faf8f4';g.fillRect(i*16+6,0,4,h);}},14,1);
+const rugGray=tex(256,256,(g,w,h)=>{g.fillStyle='#d9d6d0';g.fillRect(0,0,w,h);for(let i=0;i<40;i++){g.strokeStyle=`rgba(150,146,140,${.15+(i%5)*.05})`;g.lineWidth=1+(i%3);g.beginPath();g.moveTo(0,i*7);g.bezierCurveTo(80,i*7-30,170,i*7+30,256,i*7);g.stroke();}});
 const M=(c,o={})=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.8,metalness:0},o));
 const mat={wall:M(0xefe6d6,{roughness:.95}),wood:M(0xffffff,{map:woodFloor,roughness:.6}),tile:M(0xffffff,{map:tile,roughness:.4}),
  walnut:M(0x5b3e2c,{roughness:.55}),flute:M(0xffffff,{map:flute,roughness:.6}),oat:M(0xe4d8c4,{roughness:1}),oat2:M(0xd8c9b0,{roughness:1}),
@@ -1442,6 +1464,7 @@ const mat={wall:M(0xefe6d6,{roughness:.95}),wood:M(0xffffff,{map:woodFloor,rough
  rug:M(0xffffff,{map:rugT,roughness:1}),cane:M(0xffffff,{map:cane,roughness:.8}),zel:M(0xffffff,{map:zellige,roughness:.25}),
  reeded:M(0xffffff,{map:reeded,roughness:.2,metalness:.1}),oak:M(0xc49a6c,{roughness:.6}),white:M(0xf7f4ee,{roughness:.3}),
  leaf:M(0x5d6b3e,{roughness:.9}),pot:M(0xb4694c),glass:new THREE.MeshStandardMaterial({color:0xcfe3e8,transparent:true,opacity:.25,roughness:.05}),
+ tvwall:M(0xffffff,{map:flute,roughness:.6}),cushion:M(0x4f5a38,{roughness:.75}),throw2:M(0x56603f,{roughness:.9}),bedframe:M(0xd8c6a6,{roughness:1}),
  glow:new THREE.MeshStandardMaterial({color:0xfff1d6,emissive:0xffd9a0,emissiveIntensity:.9})};
 
 function add(m,sh=true){m.castShadow=sh;m.receiveShadow=true;scene.add(m);return m;}
@@ -1462,14 +1485,14 @@ function wall(x1,y1,x2,y2,t=10){const len=Math.hypot(x2-x1,y2-y1)+t,o=new THREE.
 box(30,1177,260,6,2.4,mat.glass,0,false);
 
 // LIVING
-box(40,386,210,4,2.4,mat.flute);
+box(40,386,210,4,2.4,mat.tvwall);
 box(40,392,210,40,.32,mat.walnut,.3);
 box(75,394,140,4,.8,mat.black,.95);
 box(30,470,260,290,.015,mat.rug,0,false);
 box(30,680,240,95,.42,mat.oat);box(30,755,240,20,.42,mat.oat,.42);
 box(30,680,16,95,.2,mat.oat,.42);box(254,680,16,95,.2,mat.oat,.42);
 for(let i=0;i<3;i++)box(48+i*69.3,688,68,66,.1,mat.oat2,.42);
-[[70,742,-.2],[230,742,.2]].forEach(([x,y,r])=>{const c=box(x-20,y-6,40,12,.38,mat.velvet,.5);c.rotation.z=r;});
+[[70,742,-.2],[230,742,.2]].forEach(([x,y,r])=>{const c=box(x-20,y-6,40,12,.38,mat.cushion,.5);c.rotation.z=r;});
 cyl(150,580,42,.04,mat.trav,.36);cyl(150,580,22,.36,mat.trav,0,26);
 (function(){const g=new THREE.Group();const p=(x,y,w,d,h,m,e)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w*S,h,d*S),m);o.position.set(x*S,e+h/2,y*S);o.castShadow=true;g.add(o);};
   [[-34,-34],[34,-34],[-34,34],[34,34]].forEach(([a,b])=>p(a,b,5,5,.42,mat.walnut,0));
@@ -1497,7 +1520,7 @@ box(600,470,40,55,.02,mat.black,.9);box(605,620,30,45,.03,mat.trav,.89);
 // MASTER
 box(90,40,210,300,.015,mat.rug,0,false);
 box(6,80,12,200,1.3,mat.velvet);
-box(18,90,200,180,.3,mat.sand);box(22,94,192,172,.24,mat.linen,.3);box(80,92,138,176,.06,mat.sand,.54);
+box(18,90,200,180,.3,mat.bedframe);box(22,94,192,172,.24,mat.linen,.3);box(80,92,138,176,.06,mat.sand,.54);
 [[30,105],[30,190]].forEach(([x,y])=>box(x,y,40,75,.14,mat.linen,.54));
 [[8,42],[8,276]].forEach(([x,y])=>{box(x,y,42,42,.52,mat.flute);sph(x+21,y+21,7,mat.trav,.6);box(1,y+15,4,12,.12,mat.brass,1.25);});
 box(70,318,225,60,2.3,mat.walnut);[0,1,2].forEach(i=>box(78+i*72,315,70,4,2.1,mat.reeded,.1));
@@ -1506,7 +1529,7 @@ box(350,40,52,110,.04,mat.walnut,.75);box(398,55,4,80,1.1,mat.brass,1.0);cyl(330
 // BEDROOM 2
 box(80,850,180,200,.015,mat.rug,0,false);
 box(6,860,10,160,1.1,mat.cane);
-box(16,870,200,140,.3,mat.oak);box(20,874,192,132,.24,mat.linen,.3);box(90,872,126,136,.06,mat.olive,.54);
+box(16,870,200,140,.3,mat.oak);box(20,874,192,132,.24,mat.linen,.3);box(90,872,126,136,.06,mat.throw2,.54);
 [[28,885],[28,945]].forEach(([x,y])=>box(x,y,38,55,.13,mat.linen,.54));
 box(8,826,40,40,.5,mat.oak);sph(28,846,9,mat.glow,.68);
 box(362,890,55,140,.04,mat.oak,.74);cyl(330,960,22,.46,mat.cane);box(305,945,6,30,.4,mat.walnut,.48);
@@ -1523,15 +1546,37 @@ box(60,1252,70,6,.04,mat.walnut,.72);
 cyl(360,1222,20,.45,mat.pot);sph(360,1222,32,mat.leaf,1.0);
 cyl(405,1225,15,.35,mat.pot);sph(405,1225,20,mat.leaf,.55);
 
+// looks: material -> [color, texture]
+const LOOKS={
+ oasis:{wall:[0xefe6d6],wood:[0xffffff,woodFloor],tile:[0xffffff,tile],tvwall:[0xffffff,flute],flute:[0xffffff,flute],walnut:[0x5b3e2c],
+  oat:[0xe4d8c4],oat2:[0xd8c9b0],velvet:[0x4f5a38],cushion:[0x4f5a38],olive:[0x56603f],zel:[0xffffff,zellige],rug:[0xffffff,rugT],
+  cane:[0xffffff,cane],bedframe:[0xd8c6a6],sand:[0xd8c6a6],throw2:[0x56603f],trav:[0xd9cbb2],oak:[0xc49a6c]},
+ raz:{wall:[0xf4f1ec],wood:[0xffffff,lightTile],tile:[0xffffff,stone],tvwall:[0xffffff,marble],flute:[0xffffff,whiteFlute],walnut:[0x3b2d24],
+  oat:[0xf2eee6],oat2:[0xe9e3d8],velvet:[0x2a2927],cushion:[0xe6e0d6],olive:[0xefece6],zel:[0xffffff,marble],rug:[0xffffff,rugGray],
+  cane:[0xe8e1d5],bedframe:[0x2a2927],sand:[0x8a8784],throw2:[0xa0522d],trav:[0xf3f1ed],oak:[0xe6dfd3]}};
+function applyLook(k){for(const [n,[c,m]] of Object.entries(LOOKS[k])){const x=mat[n];x.color.setHex(c);x.map=m||null;x.needsUpdate=true;}
+  scene.background=null;document.querySelectorAll('[data-look]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.look===k)));renderInfo(k);}
+const INFO={raz:[["Living","Cream bouclé modular sofa, white marble TV wall with a floating console, feather chandelier, sheer floor-to-ceiling curtains"],
+  ["Master","Black upholstered bed, grey throw, oval mirror, dark wood wardrobe, white fluted nightstands"],
+  ["Bedroom 2","Light bed with a rust throw and bench at the foot, tall dark wardrobe"],
+  ["Kitchen & baths","White cabinets with a marble-look splash, dark grey stone-look bathroom tiles"]],
+ oasis:[["Living","Oat sofa, fluted walnut TV wall, cane lounge chair, travertine coffee table, clay-bordered rug"],
+  ["Master","Olive velvet headboard, sand linen bedding, walnut wardrobe with reeded glass"],
+  ["Bedroom 2","Rattan headboard, olive throw, oak desk"],
+  ["Kitchen & baths","Olive lower cabinets with a clay zellige splash, warm travertine-look tiles"]]};
+function renderInfo(k){document.getElementById('lookinfo').innerHTML=INFO[k].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('');}
+document.querySelectorAll('[data-look]').forEach(b=>b.addEventListener('click',()=>applyLook(b.dataset.look)));
+applyLook('raz');
+
 // views: camera [x,y plan cm, height m], target [x,y,height], wall height m
 const V={overview:[[1100,1450,9.5],[400,620,0],1.05],living:[[560,520,1.55],[60,640,1.0],2.7],dining:[[60,600,1.5],[560,560,1.0],2.7],
  master:[[395,215,1.6],[20,170,0.8],2.7],bed2:[[395,1160,1.55],[40,930,0.7],2.7]};
 let goal=null,wallH=1.05;const FOV={overview:50};
 function setWalls(h){walls.forEach(w=>{w.scale.y=h;w.position.y=h/2;});uppers.visible=h>2;}
 function go(k){const [p,t,h]=V[k];camera.fov=FOV[k]||66;camera.updateProjectionMatrix();goal={p:new THREE.Vector3(p[0]*S,p[2],p[1]*S),t:new THREE.Vector3(t[0]*S,t[2],t[1]*S),h};
-  document.querySelectorAll('.views button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===k)));}
+  document.querySelectorAll('[data-v]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===k)));}
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-document.querySelectorAll('.views button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.v)));
+document.querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.v)));
 const [p0,t0]=V.overview;camera.position.set(p0[0]*S,p0[2],p0[1]*S);controls.target.set(t0[0]*S,t0[2],t0[1]*S);setWalls(wallH);
 
 function size(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
