@@ -38,13 +38,14 @@ button:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
 <div class="wrap">
   <div class="top"><h1>Rawasheen <span>رواشين</span></h1><span class="sub">Raz Elevate · Flat 5B · 86 m² · drawn to the architect's dimensions</span></div>
   <div class="row" role="group" aria-label="Light"><b>Light</b><button type="button" data-mode="day" aria-pressed="true">Day</button><button type="button" data-mode="night" aria-pressed="false">Evening</button>
+    <b style="margin-left:10px">Dining</b><button type="button" data-din="1" aria-pressed="true">Island + glass</button><button type="button" data-din="0" aria-pressed="false">Round table</button>
     <b style="margin-left:10px">Majlis room</b><button type="button" data-bed="0" aria-pressed="true">Majlis</button><button type="button" data-bed="1" aria-pressed="false">Guest bed out</button></div>
   <div class="row" role="group" aria-label="Views"><b>View</b>
     <button type="button" data-v="overview" aria-pressed="true">Whole flat</button>
     <button type="button" data-v="entry">Arrival</button>
     <button type="button" data-v="living">Living</button>
     <button type="button" data-v="tv">From the sofa</button>
-    <button type="button" data-v="dining">Dining</button>
+    <button type="button" data-v="dining">Island & dining</button>
     <button type="button" data-v="kitchen">Kitchen</button>
     <button type="button" data-v="suite">Master suite</button>
     <button type="button" data-v="dress">Dressing walk</button>
@@ -56,7 +57,8 @@ button:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
     <li><b>Hotel-suite master</b>The bed floats in the middle of the room facing the window, against a walnut headboard wall 2.1 m high. Behind that wall is a walk-through dressing area with an oud and perfume wall, leading to the en-suite.</li>
     <li><b>Majlis room</b>Bedroom 2 becomes a Hejazi majlis, with built-in L-shaped low seating, a bronze seniyah tray table and a lantern. A 160 cm wall bed hides behind a backlit walnut lattice for guests.</li>
     <li><b>Arrival</b>The entrance hall ends on a backlit lattice panel, the first thing you see from the front door.</li>
-    <li><b>Living, dining & kitchen</b>A walnut media wall with a 75" TV, a low sofa, an olive lounge chair under a large painting, a round walnut table under one pendant, and a walnut and stone kitchen with a coffee niche.</li>
+    <li><b>Island + fluted glass</b>A 200 × 95 cm walnut and stone island with 3 stools is your dining table and the barrier to the kitchen. A floor-to-ceiling fluted glass panel in a bronze frame at its north end divides the kitchen from the living area and screens the guest-bathroom door from the sofa. Fluted glass repeats on the upper cabinets. Switch <i>Dining</i> to compare it with the round table.</li>
+    <li><b>Living & kitchen</b>A walnut media wall with a 75" TV, a low sofa, an olive lounge chair under a large painting, and a walnut and stone kitchen with a coffee niche.</li>
   </ul>
 </div>
 
@@ -1420,7 +1422,8 @@ const mat={wall:M(0xece6db,{roughness:.95}),ceil:M(0xf5f2ec,{roughness:1}),floor
  art:M(0xffffff,{map:tex(256,110,artA)}),
  art2:M(0xffffff,{map:tex(340,220,(g,w,h)=>{g.fillStyle='#e6dccb';g.fillRect(0,0,w,h);g.fillStyle='#cdbb9f';g.beginPath();g.moveTo(0,h*.72);g.bezierCurveTo(w*.25,h*.55,w*.5,h*.8,w,h*.6);g.lineTo(w,h);g.lineTo(0,h);g.fill();
    g.fillStyle='#b49a7a';g.beginPath();g.moveTo(0,h*.85);g.bezierCurveTo(w*.4,h*.7,w*.7,h*.95,w,h*.8);g.lineTo(w,h);g.lineTo(0,h);g.fill();g.fillStyle='#9b5636';g.beginPath();g.arc(w*.72,h*.3,14,0,7);g.fill();})}),
- walnutDark:M(0x3e2a1d,{roughness:.6}),steel:M(0xb9b6b0,{roughness:.25,metalness:.9})};
+ walnutDark:M(0x3e2a1d,{roughness:.6}),
+ fluted:new THREE.MeshStandardMaterial({map:tex(64,8,(g,w,h)=>{for(let x=0;x<w;x++){const v=Math.cos((x%8)/8*Math.PI*2)*.5+.5;const c=Math.round(188+v*60);g.fillStyle=`rgb(${c},${c+2},${c-4})`;g.fillRect(x,0,1,h);}},10,1),transparent:true,opacity:.8,roughness:.12,metalness:0,side:THREE.DoubleSide}),steel:M(0xb9b6b0,{roughness:.25,metalness:.9})};
 const allMats=Object.values(mat).filter(m=>m.isMeshStandardMaterial);allMats.forEach(m=>m.envMapIntensity=.55);
 
 function add(m,sh=true){m.castShadow=sh;m.receiveShadow=true;scene.add(m);return m;}
@@ -1490,11 +1493,28 @@ box(5,450,4,170,1.1,mat.art2,1.1);box(5,446,2,178,1.14,mat.walnut,1.08);box(5,50
 box(70,780,140,4,.6,mat.art,1.05);box(68,782,144,3,.64,mat.walnut,1.03);
 
 // ---------- DINING & KITCHEN
+const T0=scene.children.length;
 cyl(380,585,50,.035,mat.walnut,.72);cyl(380,585,8,.7,mat.walnut,.02);cyl(380,585,28,.02,mat.walnut);
 [[318,523],[442,523],[318,647],[442,647]].forEach(([cx,cy])=>{const a=Math.atan2(585-cy,380-cx);
  grp(cx,cy,-a,(p)=>{[[-20,-20],[20,-20],[-20,20],[20,20]].forEach(([u,v])=>p(u,v,3.5,3.5,.45,mat.walnut,0));p(0,0,48,48,.07,mat.greige,.44,1);p(-23,0,6,44,.38,mat.greige,.5,1);});});
 cyl(380,585,30,.24,mat.shade,1.47,26);cyl(380,585,.4,.85,mat.black,1.71);
 cyl(380,585,10,.07,mat.stone,.755,8);
+const tableSet=scene.children.slice(T0);
+// island option: 200 x 95, walnut body with drawers to the kitchen, stone top with waterfall ends, knee space and 3 stools on the living side
+const I0=scene.children.length;
+box(430,484,52,192,.1,mat.walnutDark,0);box(426,484,60,192,.78,mat.walnut,.1);box(424,484,2,192,.78,mat.walnutDark,.1);
+[548,612].forEach(y=>box(486,y,1.5,.6,.78,mat.walnutDark,.1));[.36,.6].forEach(e=>box(486,484,1.5,192,.006,mat.walnutDark,e));
+[516,580,644].forEach(y=>[.8,.5,.24].forEach(e=>box(486.5,y-10,2,20,.015,mat.bronze,e)));
+box(391,480,95,200,.04,mat.stone,.88);box(391,480,95,4,.88,mat.stone,0);box(391,676,95,4,.88,mat.stone,0);
+box(455,595,4,10,.01,mat.steel,.92);
+cyl(440,560,14,.07,mat.stone,.92,9);cyl(452,632,4,.24,mat.white,.92,3);[[452,628],[455,636]].forEach(([x,y])=>{const l=box(x,y,2,10,.12,mat.leaf,1.12);l.rotation.x=.4;});
+[520,580,640].forEach(y=>grp(368,y,0,(q)=>{[[-17,-17],[17,-17],[-17,17],[17,17]].forEach(([u,v])=>q(u,v,3,3,.62,mat.walnut,0));
+  [[0,-17,36,2],[0,17,36,2],[-17,0,2,36],[17,0,2,36]].forEach(([u,v,w,d])=>q(u,v,w,d,.02,mat.bronze,.25));q(0,0,42,42,.07,mat.greige,.6,1);q(-19,0,5,38,.2,mat.greige,.66,1);}));
+[545,615].forEach(y=>{cyl(438,y,.35,1.16,mat.black,1.64);cyl(438,y,13,.24,mat.shade,1.62,14,32);cyl(438,y,14,.02,mat.bronze,1.86);});
+// floor-to-ceiling fluted glass fin in a bronze frame at the hob end
+box(393,475,91,3,H-.04,mat.fluted,.02,false);
+box(391,474,2,5,H,mat.bronze,0);box(484,474,2,5,H,mat.bronze,0);box(391,474,95,5,.03,mat.bronze,0);box(391,474,95,5,.03,mat.bronze,H-.03);
+const islandSet=scene.children.slice(I0);
 // base run: walnut fronts, stone top, full stone splash
 box(592,392,58,348,.1,mat.walnutDark,0);box(590,392,60,348,.78,mat.walnut,.1);
 [452,512,592,652,700].forEach(y=>box(589,y,1.5,.6,.78,mat.walnutDark,.1));
@@ -1507,7 +1527,8 @@ box(598,515,42,58,.006,mat.steel,.921);cyl(642,544,1.4,.32,mat.bronze,.92);box(6
 // uppers: limestone, open walnut coffee niche, integrated hood
 box(615,392,35,208,.73,mat.lime,1.47);box(615,660,35,80,.73,mat.lime,1.47);box(615,392,35,348,.58,mat.lime,2.2);
 [462,532,700].forEach(y=>box(614,y,1,.6,.73,mat.wall,1.47));
-[427,497,567,680].forEach(y=>box(613,y-10,1.5,20,.012,mat.bronze,1.5));
+[[392,462],[462,532],[532,600],[660,740]].forEach(([a,b])=>{box(613,a+1.5,1.5,b-a-3,.68,mat.fluted,1.495,false);box(612.5,a,2,1.5,.73,mat.bronze,1.47);box(612.5,b-1.5,2,1.5,.73,mat.bronze,1.47);box(612.5,a,2,b-a,.015,mat.bronze,1.47);box(612.5,a,2,b-a,.015,mat.bronze,2.185);});
+[427,497,567,680].forEach(y=>box(611,y-10,1.5,20,.012,mat.bronze,1.52));
 box(645,600,5,60,.73,mat.walnut,1.47);box(615,600,35,60,.03,mat.walnut,1.47);box(615,600,35,60,.03,mat.walnut,2.17);box(615,600,35,60,.02,mat.walnut,1.82);
 cyl(632,615,6,.13,mat.bronze,1.5,4);cyl(632,615,2,.06,mat.bronze,1.63,1);cyl(632,640,3.5,.05,mat.white,1.5);cyl(624,646,3.5,.05,mat.white,1.5);cyl(634,628,3,.08,mat.white,1.84,3);
 box(611,400,39,58,.06,mat.steel,1.41);
@@ -1570,16 +1591,22 @@ rb(320,1186,80,70,.6,mat.ac,0,3);box(150,1268,4,4,.15,mat.bronze,1.9);
 
 // ---------- night lights
 const lamps=[];function pl(x,y,e,i,d,c=0xffc888){const l=new THREE.PointLight(c,i,d,2);l.position.set(x*S,e,y*S);l.visible=false;scene.add(l);lamps.push(l);}
-pl(28,590,1.35,1.6,4.5);pl(20,530,2.3,.7,2.5);pl(620,560,1.3,.9,3);pl(380,585,1.4,1.8,4);pl(230,42,1.05,.8,2.5);pl(230,290,1.05,.8,2.5);pl(276,130,1.6,.6,2);pl(350,60,2.5,.5,3);
+pl(28,590,1.35,1.6,4.5);pl(20,530,2.3,.7,2.5);pl(620,560,1.3,.9,3);pl(380,585,1.4,1.8,4);lamps[lamps.length-1].userData.set='table';pl(438,545,1.55,1.0,3);lamps[lamps.length-1].userData.set='island';pl(438,615,1.55,1.0,3);lamps[lamps.length-1].userData.set='island';pl(230,42,1.05,.8,2.5);pl(230,290,1.05,.8,2.5);pl(276,130,1.6,.6,2);pl(350,60,2.5,.5,3);
 pl(190,990,1.85,2.0,5,0xffb070);pl(440,905,1.3,1.3,3.5);pl(615,560,1.4,.8,3);pl(140,430,.25,.7,2.5);pl(30,580,2.65,.8,4.5);pl(30,200,2.65,.6,4);pl(330,1150,2.6,.5,4);pl(495,100,2.3,.5,3);pl(495,290,2.3,.5,3);
 function setMode(night){hemi.intensity=night?.03:.25;sun.intensity=night?0:1.35;renderer.toneMappingExposure=night?1.1:.82;
   allMats.forEach(m=>m.envMapIntensity=night?.1:.55);
   mat.strip.emissiveIntensity=night?1.8:0;mat.shade.emissiveIntensity=night?1.3:0;mat.lattice.emissiveIntensity=night?1.5:0;mat.lattice2.emissiveIntensity=night?1.1:0;mat.lantern.emissiveIntensity=night?2.2:0;
   mat.sky.map=night?skyN:skyD;mat.sky.needsUpdate=true;
-  lamps.forEach(l=>l.visible=night);stage.classList.toggle('night',night);
+  NIGHT=night;refreshLamps();stage.classList.toggle('night',night);
   document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.mode==='night')===night)));}
 document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode==='night')));
-function setBed(out){wallBed.visible=out;bedFront.visible=!out;tray.forEach(t=>t.visible=!out);
+let NIGHT=false,ISLAND=true;
+function refreshLamps(){lamps.forEach(l=>l.visible=NIGHT&&(!l.userData.set||(l.userData.set==='island')===ISLAND));}
+function refresh(){scene.children.forEach(o=>{if(o.userData.want===undefined)return;o.visible=o.userData.want&&(o.userData.clip!==false);});}
+function setDining(island){ISLAND=island;islandSet.forEach(o=>o.userData.want=island);tableSet.forEach(o=>o.userData.want=!island);refresh();refreshLamps();
+  document.querySelectorAll('[data-din]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.din==='1')===island)));}
+document.querySelectorAll('[data-din]').forEach(b=>b.addEventListener('click',()=>{setDining(b.dataset.din==='1');go('dining');}));
+function setBed(out){wallBed.userData.want=out;bedFront.userData.want=!out;tray.forEach(t=>t.userData.want=!out);refresh();
   document.querySelectorAll('[data-bed]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.bed==='1')===out)));}
 document.querySelectorAll('[data-bed]').forEach(b=>b.addEventListener('click',()=>{setBed(b.dataset.bed==='1');go(b.dataset.bed==='1'?'guest':'majlis');}));
 
@@ -1588,7 +1615,7 @@ const V={overview:[[1150,1520,10.5],[400,620,0],1.05,48,"The whole flat with the
  entry:[[815,915,1.6],[420,905,1.3],H,62,"Arrival: the hall closes on a walnut lattice panel. Shoe cabinet on the right, mirror on the left."],
  living:[[540,560,1.55],[0,620,1.05],H,68,"Living from the dining side: walnut media wall, low sofa, and the olive lounge chair under a large landscape painting on the west wall (there is no window here)."],
  tv:[[140,745,1.12],[140,385,1.15],H,64,"Seated on the sofa: a 75\" TV (166 × 93 cm, centre at 1.13 m) set into the walnut wall, with the console floating below."],
- dining:[[60,620,1.5],[620,560,1.0],H,66,"Dining under one pendant, with the walnut kitchen beyond."],
+ dining:[[110,650,1.5],[600,520,1.05],H,66,"Island & dining: 3 stools on the living side, walnut drawers facing the kitchen, a fluted glass panel at the north end, two pendants above. Use the Dining switch to compare with the round table."],
  kitchen:[[505,735,1.6],[640,500,1.1],H,72,"Kitchen: walnut base cabinets, warm-white stone counter and full splash, limestone uppers with an open walnut coffee niche (dallah and finjan), and a tall fridge column by the entrance."],
  suite:[[22,378,1.65],[255,140,.9],H,70,"Master suite: the bed faces the window from a free-standing walnut headboard wall. A reading chair sits in the corner."],
  dress:[[315,372,1.6],[320,0,1.25],H,70,"Behind the headboard wall: the dressing walk, with the oud and perfume wall on the left, wardrobe on the right and the en-suite ahead."],
@@ -1604,12 +1631,11 @@ document.querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>
 let WALLH=H,clip=null;
 function setWalls(h){WALLH=h;walls.forEach(({o,e0,e1})=>{const top=Math.min(e1,h),bot=Math.min(e0,h),hh=Math.max(top-bot,.001);o.scale.y=hh;o.position.y=bot+hh/2;o.visible=top>bot+.001;});
   if(!clip){const skip=new Set([...walls.map(w=>w.o),...hideInOverview]);clip=[];scene.children.forEach(o=>{if(!(o.isMesh||o.isGroup)||skip.has(o))return;const b=new THREE.Box3().setFromObject(o);if(!isFinite(b.min.y)||b.max.y<.05)return;clip.push({o,base:b.min.y,top:b.max.y,y0:o.position.y,isG:o.isGroup});});}
-  const managed=new Set([wallBed,bedFront,...tray]);
-  clip.forEach(c=>{const vis=c.base<h-.01;if(!managed.has(c.o))c.o.visible=vis;if(!vis||c.isG)return;const f=Math.min(1,(h-c.base)/(c.top-c.base));c.o.scale.y=f;c.o.position.y=c.base+(c.y0-c.base)*f;});
+  clip.forEach(c=>{const vis=c.base<h-.01;c.o.userData.clip=vis;c.o.visible=vis&&(c.o.userData.want!==false);if(!vis||c.isG)return;const f=Math.min(1,(h-c.base)/(c.top-c.base));c.o.scale.y=f;c.o.position.y=c.base+(c.y0-c.base)*f;});
   hideInOverview.forEach(o=>o.visible=h>2);}
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const [p0,t0]=V.overview;camera.position.set(p0[0]*S,p0[2],p0[1]*S);controls.target.set(t0[0]*S,t0[2],t0[1]*S);camera.fov=V.overview[3];
-setWalls(1.05);cap.textContent=V.overview[4];
+setWalls(1.05);setBed(false);setDining(true);cap.textContent=V.overview[4];
 function size(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
 new ResizeObserver(size).observe(stage);size();{const q=far('overview',p0,t0);camera.position.set(q[0]*S,q[2],q[1]*S);}
 controls.addEventListener('start',()=>{if(goal)goal.p=null;});
