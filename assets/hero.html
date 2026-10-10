@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Kufi+Arabic:wght@600&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#0b0f1f}
+.wrap{position:relative;width:1920px;height:1080px;font-family:'Space Grotesk',sans-serif;color:#fff}
+svg{position:absolute;inset:0}
+.copy{position:absolute;left:150px;top:300px;width:900px}
+.ar{font-family:'Noto Kufi Arabic',sans-serif;font-size:44px;color:#ffb547;margin-bottom:12px;letter-spacing:1px}
+h1{font-size:150px;line-height:.95;margin:0;font-weight:700;letter-spacing:-4px}
+h1 span{background:linear-gradient(90deg,#ffb547,#ff5e7e);-webkit-background-clip:text;color:transparent}
+p{font-size:38px;color:#b8c0e0;margin:36px 0 0;font-weight:500;max-width:760px;line-height:1.3}
+.bar{width:120px;height:8px;border-radius:4px;background:linear-gradient(90deg,#ffb547,#ff5e7e);margin-top:48px}
+</style></head><body><div class="wrap">
+<svg width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs>
+<radialGradient id="glow" cx="1420" cy="520" r="620" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#ff8a4c" stop-opacity=".55"/><stop offset=".35" stop-color="#ff5e7e" stop-opacity=".22"/><stop offset="1" stop-color="#0b0f1f" stop-opacity="0"/></radialGradient>
+<radialGradient id="core" cx="1420" cy="520" r="90" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#ffe2a8"/><stop offset="1" stop-color="#ffb547" stop-opacity="0"/></radialGradient>
+<linearGradient id="ray" x1="0" x2="1"><stop offset="0" stop-color="#ffd27a" stop-opacity=".9"/><stop offset="1" stop-color="#ff5e7e" stop-opacity="0"/></linearGradient>
+<pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#1c2340" stroke-width="1"/></pattern>
+</defs>
+<rect width="1920" height="1080" fill="url(#grid)"/>
+<rect width="1920" height="1080" fill="url(#glow)"/>
+<g id="rays"></g>
+<g fill="none" stroke="#ffb547" stroke-opacity=".35">
+<circle cx="1420" cy="520" r="200"/><circle cx="1420" cy="520" r="320" stroke-opacity=".2"/><circle cx="1420" cy="520" r="460" stroke-opacity=".1"/></g>
+<path d="M1420 360 L1450 490 L1580 520 L1450 550 L1420 680 L1390 550 L1260 520 L1390 490Z" fill="#fff4dc"/>
+<circle cx="1420" cy="520" r="90" fill="url(#core)"/>
+<g id="dots"></g>
+</svg>
+<div class="copy">
+<div class="ar">وَمْضَة</div>
+<h1>Wamda<br><span>Media</span></h1>
+<p>Stories that spark. Content that moves.</p>
+<div class="bar"></div>
+</div></div>
+<script>
+const NS='http://www.w3.org/2000/svg',r=document.getElementById('rays'),d=document.getElementById('dots');
+let s=7;const rnd=()=>(s=(s*16807)%2147483647)/2147483647;
+for(let i=0;i<28;i++){const a=i/28*Math.PI*2+rnd()*.1,L=260+rnd()*420;
+const p=document.createElementNS(NS,'path');const w=2+rnd()*5;
+p.setAttribute('d',`M0 ${-w} L${L} 0 L0 ${w}Z`);p.setAttribute('fill','url(#ray)');p.setAttribute('opacity',.25+rnd()*.5);
+p.setAttribute('transform',`translate(1420 520) rotate(${a*180/Math.PI})`);r.appendChild(p);}
+for(let i=0;i<70;i++){const a=rnd()*Math.PI*2,R=120+rnd()*600,c=document.createElementNS(NS,'circle');
+c.setAttribute('cx',1420+Math.cos(a)*R);c.setAttribute('cy',520+Math.sin(a)*R*.85);c.setAttribute('r',1+rnd()*3.5);
+c.setAttribute('fill',rnd()>.5?'#ffd27a':'#ff7e9a');c.setAttribute('opacity',.3+rnd()*.6);d.appendChild(c);}
+</script></body></html>
