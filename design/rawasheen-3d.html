@@ -56,8 +56,8 @@ button:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
     <li><b>Hotel-suite master</b>The bed floats in the middle of the room facing the window, against a walnut headboard wall 2.1 m high. Behind that wall is a walk-through dressing area with an oud and perfume wall, leading to the en-suite.</li>
     <li><b>Majlis room</b>Bedroom 2 becomes a Hejazi majlis, with built-in L-shaped low seating, a bronze seniyah tray table and a lantern. A 160 cm wall bed hides behind a backlit walnut lattice for guests.</li>
     <li><b>Arrival</b>The entrance hall ends on a backlit lattice panel, the first thing you see from the front door.</li>
-    <li><b>TV wall</b>A free-standing 2.0 m walnut wall with a 75" TV hides the kitchen from the sofa. It has 1.0 m and 0.9 m openings on each side.</li>
-    <li><b>Dining behind it</b>An upholstered bench is built against the back of the TV wall, with a walnut table and 2 chairs that seat 5, and 2 pendants above. The kitchen has walnut lower cabinets, fluted glass uppers and a coffee niche.</li>
+    <li><b>One open room</b>The TV is on the solid west wall, which has no window and no doors, so it gets a full 3.9 m walnut media wall with an 85" TV. The sofa floats in front of it with its back to the kitchen, so the kitchen is never in view while you watch.</li>
+    <li><b>Low divider, not a wall</b>A dining bench is built onto the back of the sofa, divided by an 86 cm walnut back with a stone cap and two small lamps. Above that height, the full 6 m room stays open.</li>
   </ul>
 </div>
 
@@ -1470,34 +1470,37 @@ box(421,855,5,100,2.4,mat.lattice,.12);box(426,861,22,90,.03,mat.stone,.9);cyl(4
 box(600,972,60,4,1.8,mat.mirror,.3);box(598,975,64,3,1.84,mat.bronze,.28);
 box(470,850,120,90,.012,mat.rug,0,false);
 
-// ---------- LIVING (lounge): sofa on the west wall facing the new TV wall
-// TV wall: free-standing, 2.0 m wide, 3.6 m from the west wall; 1.0 m opening north, 0.9 m south
-box(352,490,20,200,H,mat.wall);box(348,490,4,200,H,mat.panel);
-box(344,507,4,166,.93,mat.black,.665);box(345,506,1,168,.95,mat.bronze,.655);
-box(314,500,30,180,.27,mat.walnut,.3);box(314,500,30,180,.03,mat.stone,.57);box(317,502,24,176,.02,mat.strip,.28,false);
-box(85,450,240,280,.012,mat.rug,0,false);
-rb(5,470,95,240,.2,mat.greige2,.16,3);rb(5,470,22,240,.46,mat.greige,.36,6);rb(5,470,95,15,.3,mat.greige,.36,5);rb(5,695,95,15,.3,mat.greige,.36,5);
-for(let i=0;i<3;i++)rb(27,487+i*69,70,68,.15,mat.oat,.36,6);
-[[20,492,mat.olive],[22,545,mat.oat],[22,610,mat.oat],[20,660,mat.olive]].forEach(([x,y,m])=>rb(x,y,13,44,.42,m,.5,6));rb(24,568,11,44,.26,mat.henna,.52,5);
-[[10,476],[96,476],[10,704],[96,704]].forEach(([x,y])=>box(x-2,y-2,4,4,.16,mat.walnut,0));
-(function(){const t=new THREE.Mesh(new THREE.CylinderGeometry(1,1,.035,64),mat.stone);t.scale.set(.35,1,.65);t.position.set(1.85,.345,5.90);add(t);
- const b=new THREE.Mesh(new THREE.CylinderGeometry(1,1,.32,64),mat.walnut);b.scale.set(.22,1,.48);b.position.set(1.85,.165,5.90);add(b);})();
-cyl(180,555,10,.06,mat.bronze,.36,7);rb(175,600,20,28,.07,mat.oat,.36,1);rb(176,602,18,24,.03,mat.henna,.43,1);
-cyl(52,738,20,.02,mat.bronze,.55);cyl(52,738,3,.55,mat.bronze);
-grp(190,432,Math.PI*0.5+0.6,(p)=>{[[-32,-33],[32,-33],[-32,33],[32,33]].forEach(([a,b])=>p(a,b,4,4,.4,mat.walnut,0));
+// ---------- LIVING: TV on the solid west wall, sofa floats with its back to the kitchen
+// full-width walnut media wall (3.9 m, no doors), 85" TV, floating console
+box(5,392,7,386,H,mat.panel);
+box(12,491,4,188,1.06,mat.black,.6);box(11,490,1,190,1.08,mat.bronze,.59);
+box(12,465,30,240,.27,mat.walnut,.3);box(12,465,30,240,.03,mat.stone,.57);box(14,468,25,234,.02,mat.strip,.28,false);
+box(11,400,2,370,.02,mat.strip,2.75,false);
+box(80,435,200,300,.012,mat.rug,0,false);
+// sofa (faces west) + shared walnut back with stone cap + dining bench (faces east)
+rb(262,465,95,240,.2,mat.greige2,.16,3);rb(335,465,22,240,.46,mat.greige,.36,6);rb(262,465,95,15,.3,mat.greige,.36,5);rb(262,690,95,15,.3,mat.greige,.36,5);
+for(let i=0;i<3;i++)rb(266,482+i*69,70,68,.15,mat.oat,.36,6);
+[[322,488,mat.olive],[324,540,mat.oat],[324,610,mat.oat],[322,662,mat.olive]].forEach(([x,y,m])=>rb(x,y,13,44,.42,m,.5,6));rb(324,563,11,44,.26,mat.henna,.52,5);
+[[268,470],[350,470],[268,700],[350,700]].forEach(([x,y])=>box(x-2,y-2,4,4,.16,mat.walnut,0));
+box(357,465,6,240,.86,mat.walnut,0);box(353,462,14,246,.03,mat.stone,.86);
+[[360,482],[360,688]].forEach(([x,y])=>{cyl(x,y,5,.02,mat.bronze,.89);cyl(x,y,.8,.3,mat.bronze,.89);cyl(x,y,9,.16,mat.shade,1.17,11);});
+box(363,465,45,240,.08,mat.walnut,0);rb(363,465,45,240,.28,mat.greige2,.08,4);rb(365,467,41,236,.1,mat.oat,.36,6);
+rb(363,467,13,236,.36,mat.greige,.46,6);[[378,500,mat.olive],[378,640,mat.henna]].forEach(([x,y,m])=>rb(x,y,12,36,.28,m,.48,5));
+// coffee table, lounge chair, lamp, painting, plant
+(function(){const t=new THREE.Mesh(new THREE.CylinderGeometry(1,1,.035,64),mat.stone);t.scale.set(.33,1,.62);t.position.set(1.76,.345,5.85);add(t);
+ const b2=new THREE.Mesh(new THREE.CylinderGeometry(1,1,.32,64),mat.walnut);b2.scale.set(.2,1,.45);b2.position.set(1.76,.165,5.85);add(b2);})();
+cyl(176,555,10,.06,mat.bronze,.36,7);rb(166,600,20,28,.07,mat.oat,.36,1);rb(167,602,18,24,.03,mat.henna,.43,1);
+grp(115,445,2.62,(p)=>{[[-32,-33],[32,-33],[-32,33],[32,33]].forEach(([a,b])=>p(a,b,4,4,.4,mat.walnut,0));
  p(0,0,70,72,.05,mat.walnut,.36);p(0,2,64,64,.13,mat.olive,.41,1);p(0,33,66,10,.4,mat.olive,.5,1);p(-35,0,5,70,.05,mat.walnut,.62);p(35,0,5,70,.05,mat.walnut,.62);});
-cyl(118,412,13,.02,mat.bronze);cyl(118,412,1.1,1.35,mat.bronze,.02);cyl(118,412,20,.32,mat.shade,1.3,24);
-plant(40,752,.5,true);
-box(5,505,4,170,1.1,mat.art2,1.1);box(5,501,2,178,1.14,mat.walnut,1.08);box(5,555,10,70,.03,mat.bronze,2.28);
-{const c=box(0,392,18,388,.02,mat.strip,2.77,false);hideInOverview.push(c);}
+cyl(40,420,13,.02,mat.bronze);cyl(40,420,1.1,1.35,mat.bronze,.02);cyl(40,420,20,.32,mat.shade,1.3,24);
+box(55,390,170,4,1.1,mat.art2,1.12);box(53,388,174,2,1.14,mat.walnut,1.1);box(105,390,70,10,.03,mat.bronze,2.3);
+plant(30,752,.5,true);
 
-// ---------- DINING: upholstered bench built against the back of the TV wall
-box(372,495,45,190,.08,mat.walnut,0);rb(372,495,45,190,.36,mat.greige2,.08,4);rb(374,497,41,186,.1,mat.oat,.36,6);
-rb(372,495,14,190,.5,mat.greige,.46,6);[[380,520,mat.olive],[380,640,mat.henna]].forEach(([x,y,m])=>rb(x,y,12,36,.3,m,.5,5));
-box(420,520,75,140,.04,mat.walnut,.72);box(426,540,63,4,.7,mat.walnut,.02);box(426,636,63,4,.7,mat.walnut,.02);box(455,544,4,92,.05,mat.walnut,.12);
-[[457,492,0],[457,688,Math.PI]].forEach(([x,y,r])=>grp(x,y,r+Math.PI/2,(q)=>{[[-20,-20],[20,-20],[-20,20],[20,20]].forEach(([u,v])=>q(u,v,3.5,3.5,.45,mat.walnut,0));q(0,0,46,46,.07,mat.greige,.44,1);q(-22,0,6,44,.38,mat.greige,.5,1);}));
-[560,625].forEach(y=>{cyl(457,y,.35,1.2,mat.black,1.6);cyl(457,y,13,.24,mat.shade,1.58,14,32);cyl(457,y,14,.02,mat.bronze,1.82);});
-cyl(457,590,12,.06,mat.stone,.76,8);cyl(440,560,3,.2,mat.white,.76,2);
+// ---------- DINING: bench backs onto the sofa; 160 x 75 walnut table, chairs at the ends
+box(412,505,75,160,.04,mat.walnut,.72);box(418,523,63,4,.7,mat.walnut,.02);box(418,643,63,4,.7,mat.walnut,.02);box(447,527,4,116,.05,mat.walnut,.12);
+[[450,482,0],[450,688,Math.PI]].forEach(([x,y,r])=>grp(x,y,r+Math.PI/2,(q)=>{[[-20,-20],[20,-20],[-20,20],[20,20]].forEach(([u,v])=>q(u,v,3.5,3.5,.45,mat.walnut,0));q(0,0,46,46,.07,mat.greige,.44,1);q(-22,0,6,44,.38,mat.greige,.5,1);}));
+[555,615].forEach(y=>{cyl(450,y,.35,1.2,mat.black,1.6);cyl(450,y,13,.24,mat.shade,1.58,14,32);cyl(450,y,14,.02,mat.bronze,1.82);});
+cyl(450,585,12,.06,mat.stone,.76,8);cyl(436,560,3,.2,mat.white,.76,2);
 // base run: walnut fronts, stone top, full stone splash
 box(592,392,58,348,.1,mat.walnutDark,0);box(590,392,60,348,.78,mat.walnut,.1);
 [452,512,592,652,700].forEach(y=>box(589,y,1.5,.6,.78,mat.walnutDark,.1));
@@ -1574,8 +1577,8 @@ rb(320,1186,80,70,.6,mat.ac,0,3);box(150,1268,4,4,.15,mat.bronze,1.9);
 
 // ---------- night lights
 const lamps=[];function pl(x,y,e,i,d,c=0xffc888){const l=new THREE.PointLight(c,i,d,2);l.position.set(x*S,e,y*S);l.visible=false;scene.add(l);lamps.push(l);}
-pl(118,412,1.35,1.6,4.5);pl(20,590,2.3,.7,2.5);pl(620,560,1.3,.9,3);pl(457,560,1.45,1.0,3);pl(457,625,1.45,1.0,3);pl(230,42,1.05,.8,2.5);pl(230,290,1.05,.8,2.5);pl(276,130,1.6,.6,2);pl(350,60,2.5,.5,3);
-pl(190,990,1.85,2.0,5,0xffb070);pl(440,905,1.3,1.3,3.5);pl(615,560,1.4,.8,3);pl(330,590,.25,.7,2.5);pl(30,580,2.65,.8,4.5);pl(30,200,2.65,.6,4);pl(330,1150,2.6,.5,4);pl(495,100,2.3,.5,3);pl(495,290,2.3,.5,3);
+pl(40,420,1.35,1.4,4.5);pl(140,400,2.3,.7,2.5);pl(360,482,1.15,.5,2);pl(360,688,1.15,.5,2);pl(620,560,1.3,.9,3);pl(450,555,1.45,1.0,3);pl(450,615,1.45,1.0,3);pl(230,42,1.05,.8,2.5);pl(230,290,1.05,.8,2.5);pl(276,130,1.6,.6,2);pl(350,60,2.5,.5,3);
+pl(190,990,1.85,2.0,5,0xffb070);pl(440,905,1.3,1.3,3.5);pl(615,560,1.4,.8,3);pl(45,585,.25,.7,2.5);pl(30,580,2.65,.8,4.5);pl(30,200,2.65,.6,4);pl(330,1150,2.6,.5,4);pl(495,100,2.3,.5,3);pl(495,290,2.3,.5,3);
 function setMode(night){hemi.intensity=night?.03:.25;sun.intensity=night?0:1.35;renderer.toneMappingExposure=night?1.1:.82;
   allMats.forEach(m=>m.envMapIntensity=night?.1:.55);
   mat.strip.emissiveIntensity=night?1.8:0;mat.shade.emissiveIntensity=night?1.3:0;mat.lattice.emissiveIntensity=night?1.5:0;mat.lattice2.emissiveIntensity=night?1.1:0;mat.lantern.emissiveIntensity=night?2.2:0;
@@ -1596,9 +1599,9 @@ document.querySelectorAll('[data-bed]').forEach(b=>b.addEventListener('click',()
 // ---------- views
 const V={overview:[[1150,1520,10.5],[400,620,0],1.05,48,"The whole flat with the walls cut low. Entrance on the right, master suite top left, majlis room bottom left."],
  entry:[[815,915,1.6],[420,905,1.3],H,62,"Arrival: the hall closes on a walnut lattice panel. Shoe cabinet on the right, mirror on the left."],
- living:[[345,440,1.6],[20,650,1.0],H,70,"Living room: the sofa sits on the back wall under the large painting, facing the new TV wall. Lounge chair and floor lamp in the corner."],
- tv:[[65,590,1.12],[360,590,1.15],H,64,"Seated on the sofa: the 75\" TV on the free-standing walnut TV wall, 2.9 m away. It hides the kitchen, with a 1.0 m opening on the left and 0.9 m on the right."],
- dining:[[570,735,1.6],[390,560,.95],H,70,"Dining behind the TV wall: a built-in upholstered bench against its back, a 140 × 75 cm walnut table, 2 chairs at the ends (seats 5) and 2 pendants. The kitchen walkway stays 91 cm."],
+ living:[[300,765,1.65],[10,520,1.05],H,70,"Living room: an 85\" TV on a full-width walnut wall (the windowless west wall), the sofa floating in front of it, a lounge chair under the painting. Above the sofa the room stays open all the way to the kitchen."],
+ tv:[[325,585,1.12],[0,585,1.13],H,64,"Seated on the sofa: 85\" TV about 3.1 m away. The kitchen is behind you, so you never see it while watching."],
+ dining:[[570,740,1.6],[300,560,1.0],H,70,"Dining: an upholstered bench built onto the back of the sofa, a 160 × 75 cm walnut table and chairs at the ends (seats 5–6). Above the 86 cm stone-capped divider you see the TV wall 6 m away, so the room reads as one space."],
  kitchen:[[505,735,1.6],[640,500,1.1],H,72,"Kitchen: walnut base cabinets, warm-white stone counter and full splash, limestone uppers with an open walnut coffee niche (dallah and finjan), and a tall fridge column by the entrance."],
  suite:[[22,378,1.65],[255,140,.9],H,70,"Master suite: the bed faces the window from a free-standing walnut headboard wall. A reading chair sits in the corner."],
  dress:[[315,372,1.6],[320,0,1.25],H,70,"Behind the headboard wall: the dressing walk, with the oud and perfume wall on the left, wardrobe on the right and the en-suite ahead."],
